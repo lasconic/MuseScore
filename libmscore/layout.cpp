@@ -529,7 +529,12 @@ void Score::layoutStage3()
 
 void Score::doLayout()
       {
-      int idx = _style.valueSt(ST_MusicalSymbolFont) == "Gonville" ? 1 : 0;
+
+      int idx = 0;
+      if (_style.valueSt(ST_MusicalSymbolFont) == "Gonville")
+            idx = 1;
+      if (_style.valueSt(ST_MusicalSymbolFont) == "Parnassus")
+            idx = 2;
 
       initSymbols(idx);
 

@@ -12,6 +12,8 @@
         <file alias="fonts/gonville.xml">../fonts/gonville.xml</file>
         <file alias="fonts/gonville-20.ttf">../fonts/gonville-20.ttf</file>
         <file alias="fonts/mscore-20.ttf">../fonts/mscore-20.ttf</file>
+        <file alias="fonts/Parnassus.xml">../fonts/Parnassus.xml</file>    
+        <file alias="fonts/Parnassus.otf">../fonts/Parnassus.otf</file>
         <file alias="fonts/MuseJazz.ttf">../fonts/MuseJazz.ttf</file>
         <file alias="fonts/FreeSerifMscore.ttf">../fonts/FreeSerifMscore.ttf</file>
         <file alias="fonts/FreeSerifBold.ttf">../fonts/FreeSerifBold.ttf</file>

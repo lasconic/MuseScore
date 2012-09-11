@@ -582,7 +582,15 @@ void EditStyle::setValues()
       slurMidLineWidth->setValue(lstyle.valueS(ST_SlurMidWidth).val());
       slurDottedLineWidth->setValue(lstyle.valueS(ST_SlurDottedWidth).val());
       slurBow->setValue(lstyle.valueS(ST_SlurBow).val());
-      musicalSymbolFont->setCurrentIndex(lstyle.valueSt(ST_MusicalSymbolFont) == "Emmentaler" ? 0 : 1);
+
+      int i = 0;
+      if (lstyle.valueSt(ST_MusicalSymbolFont) == "Emmentaler")
+         i = 0;
+      else if (lstyle.valueSt(ST_MusicalSymbolFont) == "Gonville")
+         i = 1;
+      else if (lstyle.valueSt(ST_MusicalSymbolFont) == "Parnassus")
+         i = 2;
+      musicalSymbolFont->setCurrentIndex(i);
 
       showHeader->setChecked(lstyle.valueB(ST_showHeader));
       headerStyled->setChecked(lstyle.valueB(ST_headerStyled));

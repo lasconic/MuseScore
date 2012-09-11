@@ -203,6 +203,11 @@
                 <string notr="true">Gonville</string>
                </property>
               </item>
+              <item>
+               <property name="text">
+                <string notr="true">Parnassus</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item>

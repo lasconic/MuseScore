@@ -17,10 +17,11 @@
 #include "xml.h"
 #include "mscore.h"
 
+
 namespace Ms {
 
-QVector<Sym> symbols[2];
-static bool symbolsInitialized[2] = { false, false };
+QVector<Sym> symbols[3];
+static bool symbolsInitialized[3] = { false, false, false };
 
 // static QReadWriteLock gLock;
 QHash<QString, SymId> Sym::lnhash;
@@ -298,8 +299,8 @@ int symIdx2fontId(int symIdx)
 
 QFont fontId2font(int fontId)
       {
-      static QFont* fonts[4];       // cached values
-      Q_ASSERT(fontId >= 0 && fontId < 4);
+      static QFont* fonts[5];       // cached values
+      Q_ASSERT(fontId >= 0 && fontId < 5);
 
       QFont* f = fonts[fontId];
       if (f == 0) {
@@ -322,6 +323,8 @@ QFont fontId2font(int fontId)
                   }
             else if (fontId == 3)
                   f->setFamily("Gonville-20");
+            else if (fontId == 4)
+                  f->setFamily("Parnassus");
             else
                   qFatal("illegal font id %d", fontId);
 
@@ -604,7 +607,12 @@ void initSymbols(int idx)
       path = rpath + QString(idx == 0 ? "/mscore20.xml" : "/mscore/gonville.xml");
       }
 #else
-      path = idx == 0 ? ":/fonts/mscore20.xml" : ":/fonts/gonville.xml";
+      if(idx == 0)
+        path = ":/fonts/mscore20.xml";
+      else if(idx == 1)
+        path = ":/fonts/gonville.xml";
+      else if(idx == 2)
+        path = ":/fonts/Parnassus.xml";
 #endif
       QFile f(path);
       if (!f.open(QFile::ReadOnly)) {
@@ -612,8 +620,14 @@ void initSymbols(int idx)
             if (!MScore::debugMode)
                   exit(-1);
             }
+
       XmlReader e(&f);
-      int fid = idx == 0 ? 0 : 3;
+
+      int fid = 0;
+      if(idx == 1) //Gonville
+            fid = 3;
+      else if (idx == 2) // Parnassus
+            fid = 4;
 
       while (e.readNextStartElement()) {
             if (e.name() == "museScore") {
