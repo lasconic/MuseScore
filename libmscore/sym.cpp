@@ -290,7 +290,12 @@ static SymbolNames lilypondNames[] = {
 
 int symIdx2fontId(int symIdx)
       {
-      return symIdx == 0 ? 0 : 3;
+      int fid = 0;
+      if(symIdx == 1) //Gonville
+            fid = 3;
+      else if (symIdx == 2) // Parnassus
+            fid = 4;
+      return fid;
       }
 
 //---------------------------------------------------------
