@@ -59,6 +59,8 @@ void TestPlugins::plugins01()
       QQmlComponent component(&engine,
          QUrl::fromLocalFile(path));
       QObject* object = component.create();
+      if(!object)
+            qDebug() << component.errors();
       QVERIFY(object != 0);
       if (object == 0) {
             qDebug("creating component <%s> failed", qPrintable(path));
@@ -85,6 +87,8 @@ void TestPlugins::plugins02()
       QQmlComponent component(&engine,
          QUrl::fromLocalFile(path));
       QObject* object = component.create();
+      if(!object)
+            qDebug() << component.errors();
       QVERIFY(object != 0);
       if (object == 0) {
             qDebug("creating component <%s> failed", qPrintable(path));
