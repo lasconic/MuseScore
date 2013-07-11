@@ -1,5 +1,5 @@
 #!/bin/sh
-xvfb-run ctest
+xvfb-run ./libmscore/plugins/tst_plugins
 PROC_RET=$?
 
 if [ "$PROC_RET" -ne 0 ]; then
