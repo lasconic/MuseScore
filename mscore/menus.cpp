@@ -990,6 +990,13 @@ Palette* MuseScore::newTextPalette()
       text->setTextStyleType(TextStyleType::LYRICS_VERSE_NUMBER);
       text->setText(tr("1."));
       sp->append(text, tr("Lyrics Verse Number"));
+      
+      
+      StaffText* sw = new StaffText(gscore);
+      sw->setTextStyleType(TextStyleType::STAFF);
+      sw->setText("<sym>textBlackNoteShortStem</sym><sym>textCont8thBeamShortStem</sym><sym>textBlackNoteFrac8thShortStem</sym><sym>space</sym>=<sym>space</sym><sym>textBlackNoteShortStem</sym><sym>textTupletBracketStartLongStem</sym><sym>textTuplet3LongStem</sym><sym>note8thUp</sym><sym>textTupletBracketEndLongStem</sym>");
+      sp->append(sw, tr("Swing"));
+      
 
       return sp;
       }
