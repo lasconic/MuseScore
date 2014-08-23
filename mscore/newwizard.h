@@ -168,8 +168,9 @@ class NewWizardPage3 : public QWizardPage {
 class NewWizardPage4 : public QWizardPage {
       Q_OBJECT
 
-      QFileDialog* templateFileDialog;
+      //QFileDialog* templateFileDialog;
       QString path;
+      QGraphicsView* view;
 
    private slots:
       void templateChanged(const QString&);

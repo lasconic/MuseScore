@@ -2247,5 +2247,51 @@ bool MuseScore::saveSvg(Score* score, const QString& saveName)
       return true;
       }
 
+void MuseScore::generateThumbnail(QString scorePath, QString outputFile)
+      {
+      qDebug() << scorePath << outputFile;
+      Score* cs = readScore(scorePath);
+      cs->startCmd();
+	cs->setLayoutAll(true);
+      cs->endCmd();
+      
+      cs->setPrinting(true);    // dont print page break symbols etc.
+
+      QImage::Format f;
+	f = QImage::Format_ARGB32_Premultiplied;
+
+      const QList<Page*>& pl = cs->pages();
+
+      Page* page = pl.at(0);
+	
+      QRectF r = page->abbox();
+      int targetWidth = 120;
+      double convDpi = targetWidth * MScore::DPI / r.width();
+      int w = lrint(r.width()  * convDpi / MScore::DPI);
+      int h = lrint(r.height() * convDpi / MScore::DPI);
+
+      QImage printer(w, h, f);
+      printer.setDotsPerMeterX(lrint((convDpi * 1000) / INCH));
+      printer.setDotsPerMeterY(lrint((convDpi * 1000) / INCH));
+
+      printer.fill(0xffffffff);
+
+      double mag = convDpi / MScore::DPI;
+      QPainter p(&printer);
+
+      p.setRenderHint(QPainter::Antialiasing, true);
+      p.setRenderHint(QPainter::TextAntialiasing, true);
+      p.scale(mag, mag);
+
+      QList<const Element*> pel = page->elements();
+      qStableSort(pel.begin(), pel.end(), elementLessThan);
+      paintElements(p, pel);
+
+	bool rv;
+      rv = printer.save(outputFile, "png");
+            
+      delete cs;
+      }
+
 }
 

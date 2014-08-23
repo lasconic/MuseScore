@@ -604,6 +604,9 @@ class MuseScore : public QMainWindow, public MuseScoreCore {
       bool saveMidi(Score* score, const QString& name);
 
       void closeScore(Score* score);
+      
+      void populateTemplateImageCache();
+      void generateThumbnail(QString scorePath, QString outputFile);
 
       void addTempo();
       void addMetronome();

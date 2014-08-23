@@ -253,6 +253,26 @@ NewWizardPage3::NewWizardPage3(QWidget* parent)
       setLayout(grid);
       }
 
+class GridScene : public QGraphicsScene
+{
+public:
+    GridScene()
+    {
+    }
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+    {
+        for (QGraphicsItem* item : items()) {
+            QGraphicsRectItem* rectItem = qgraphicsitem_cast<QGraphicsRectItem*>(item);
+            if (rectItem)
+                rectItem->setPen(QPen(Qt::transparent));
+        }
+        QGraphicsRectItem* mDragged = qgraphicsitem_cast<QGraphicsRectItem*>(itemAt(mouseEvent->scenePos(), QTransform()));
+        if (mDragged)
+            mDragged->setPen(QPen(Qt::blue));
+    }
+};
+
 //---------------------------------------------------------
 //   NewWizardPage4
 //---------------------------------------------------------
@@ -265,7 +285,7 @@ NewWizardPage4::NewWizardPage4(QWidget* parent)
       setAccessibleName(title());
       setAccessibleDescription(subTitle());
 
-      templateFileDialog = new QFileDialog;
+      /*templateFileDialog = new QFileDialog;
       templateFileDialog->setParent(this);
       templateFileDialog->setModal(false);
       templateFileDialog->setSizeGripEnabled(false);
@@ -287,14 +307,125 @@ NewWizardPage4::NewWizardPage4(QWidget* parent)
       QSettings settings;
       templateFileDialog->restoreState(settings.value("templateFileDialog").toByteArray());
       templateFileDialog->setAcceptMode(QFileDialog::AcceptOpen);
-      templateFileDialog->setDirectory(mscoreGlobalShare + "templates");
+      templateFileDialog->setDirectory(mscoreGlobalShare + "templates");*/
 
       QLayout* layout = new QVBoxLayout;
-      layout->addWidget(templateFileDialog);
+      view = new QGraphicsView(this);
+      //view->setStyleSheet("background-color:black;");
+      
+      struct MyTemplate {
+      	QString path;
+            QString imagePath;
+            QString name;
+            QString category;
+            
+      MyTemplate(QString t, QString n, QString o, QString o2)
+         : path(t), imagePath(n), name(o), category(o2){}
+      };
+      QMultiMap<QString, MyTemplate> map;
+      
+      
+      QFileInfo myTemplates(preferences.myTemplatesPath);
+      if (myTemplates.isRelative())
+            myTemplates.setFile(QDir::home(), preferences.myTemplatesPath);
+      
+      
+      QDir d;
+      d.mkpath(dataPath + "/templateImageCache");
+      
+      QDirIterator dirIt(myTemplates.absoluteFilePath(), QDirIterator::Subdirectories);
+      while (dirIt.hasNext()) {
+            dirIt.next();
+            if (QFileInfo(dirIt.filePath()).isFile()) {
+            	QString suffix = QFileInfo(dirIt.filePath()).suffix();
+                  if (suffix == "mscx" || suffix == "mscz") {
+                        QFileInfo fi(dirIt.filePath());
+                        QStringList sl = fi.baseName().split("-");
+                        if (sl.size() == 3) {
+                        	QFileInfo fi = dirIt.fileInfo();
+                              QString imgPath = QString("%1/templateImageCache/%2.png").arg(dataPath).arg(fi.baseName());
+                              QString category = QString("%1-%2").arg(sl[0]).arg(sl[1]);
+                              QString name = sl[2].replace("_", " ");
+                        	map.insert(category, MyTemplate(dirIt.filePath(), imgPath, name, category));
+                              }
+                        }
+                  }
+		}
+      
+      QDirIterator dirIt2(mscoreGlobalShare + "templates", QDirIterator::Subdirectories);
+      while (dirIt2.hasNext()) {
+            dirIt2.next();
+            if (QFileInfo(dirIt2.filePath()).isFile()) {
+            	QString suffix = QFileInfo(dirIt2.filePath()).suffix();
+                  if (suffix == "mscx" || suffix == "mscz") {
+                        QFileInfo fi(dirIt2.filePath());
+				QStringList sl = fi.baseName().split("-");
+                        if (sl.size() == 3) {
+                        	QFileInfo fi = dirIt2.fileInfo();
+                        	 QString imgPath = QString("%1/templateImageCache/%2.png").arg(dataPath).arg(fi.baseName());
+                              QString category = QString("%1-%2").arg(sl[0]).arg(sl[1]);
+                              QString name = sl[2].replace("_", " ");
+                        	map.insert(category, MyTemplate(dirIt2.filePath(), imgPath, name, category));
+                              }
+                        }
+                  }
+		}
+      
+
+      QSize cellSize(150, 200);
+
+      view->setScene(new GridScene());
+      
+      qreal left = int(rect().left()) - (int(rect().left()) % cellSize.width());
+      qreal top = int(rect().top()) - (int(rect().top()) % cellSize.height());
+	view->resize(size());
+      view->setSceneRect(0, 0, size().width(), size().height());
+
+      qreal headerHeight = 17;
+      qreal topOffset = headerHeight;
+      
+      for (QString category : map.uniqueKeys()) {
+          QList<MyTemplate> templatePaths = map.values(category);
+          QGraphicsTextItem * text = view->scene()->addText(category.split("-")[1]);
+          text->setPos(QPointF(0, topOffset - headerHeight - 2));
+          QFont font(text->font());
+          font.setBold(true);
+          text->setFont(font);
+          int count = 0;
+          int maxCount = templatePaths.size();
+          qreal y = 0;
+          for (y = top + topOffset; count != maxCount; y += cellSize.height()) {
+              for (qreal x = left; x < rect().right() && count != maxCount;  x += cellSize.width()) {
+                    MyTemplate tpl = templatePaths.at(count);
+                    QFileInfo fi(tpl.path);
+                    QGraphicsPixmapItem* gp = new QGraphicsPixmapItem(QPixmap(tpl.imagePath));
+                    gp->setOffset(QPointF(x + 15, y + 5));
+                    view->scene()->addItem(gp);
+                    QGraphicsRectItem* rectItem = view->scene()->addRect(x, y, cellSize.width(), cellSize.height());
+                    rectItem->setBrush(QBrush(Qt::transparent));
+                    rectItem->setPen(QPen(Qt::transparent));
+                    rectItem->setData(0, QVariant(path));
+                    QGraphicsTextItem * text = view->scene()->addText(tpl.name);
+          		  text->setPos(QPointF(x + text->boundingRect().width()/2, y + cellSize.height() - headerHeight - 2));
+                    count++;
+                    }
+              }
+          topOffset = y + headerHeight;
+          }
+
+      view->resize(QSize(size().width(), topOffset - headerHeight));
+      view->setSceneRect(size().width() % cellSize.width(), 0, size().width(), topOffset - headerHeight);
+      view->show();
+      
+      
+      //sa->setWidget(view);
+      layout->addWidget(view);
+      
+      layout->setMargin(0);
       setLayout(layout);
 
-      connect(templateFileDialog, SIGNAL(currentChanged(const QString&)), SLOT(templateChanged(const QString&)));
-      connect(templateFileDialog, SIGNAL(accepted()), SLOT(fileAccepted()));
+      //connect(templateFileDialog, SIGNAL(currentChanged(const QString&)), SLOT(templateChanged(const QString&)));
+      //connect(templateFileDialog, SIGNAL(accepted()), SLOT(fileAccepted()));
       }
 
 //---------------------------------------------------------
@@ -307,7 +438,7 @@ void NewWizardPage4::initializePage()
       // possibly this is not portable as we make some assumptions on the
       // implementation of QFileDialog
 
-      templateFileDialog->show();
+      /*templateFileDialog->show();
       QList<QPushButton*>widgets = templateFileDialog->findChildren<QPushButton*>();
       foreach(QPushButton* w, widgets) {
             w->setEnabled(false);
@@ -317,7 +448,7 @@ void NewWizardPage4::initializePage()
       if (templateFileDialog->selectedFiles().size() > 0) {
             path = templateFileDialog->selectedFiles()[0];
             emit completeChanged();
-            }
+            }*/
       }
 
 //---------------------------------------------------------
@@ -335,7 +466,8 @@ bool NewWizardPage4::isComplete() const
 
 void NewWizardPage4::fileAccepted()
       {
-      templateFileDialog->show();
+      //templateFileDialog->show();
+      view->show();
       wizard()->next();
       }
 

@@ -1129,6 +1129,8 @@ MuseScore::MuseScore()
       loadInstrumentTemplates(preferences.instrumentList1);
       if (!preferences.instrumentList2.isEmpty())
             loadInstrumentTemplates(preferences.instrumentList2);
+      
+      populateTemplateImageCache();
 
       preferencesChanged();
       if (seq) {
@@ -2365,6 +2367,44 @@ static void mscoreMessageHandler(QtMsgType type, const QMessageLogContext &conte
          }
      }
 #endif
+
+
+void MuseScore::populateTemplateImageCache()
+      {
+      QFileInfo myTemplates(preferences.myTemplatesPath);
+      if (myTemplates.isRelative())
+            myTemplates.setFile(QDir::home(), preferences.myTemplatesPath);
+      
+      
+      QDir d;
+      d.mkpath(dataPath + "/templateImageCache");
+      
+      QDirIterator dirIt(myTemplates.absoluteFilePath(), QDirIterator::Subdirectories);
+      while (dirIt.hasNext()) {
+            dirIt.next();
+            if (QFileInfo(dirIt.filePath()).isFile()) {
+            	QString suffix = QFileInfo(dirIt.filePath()).suffix();
+                  if (suffix == "mscx" || suffix == "mscz") {
+                        QFileInfo fi(dirIt.filePath());
+                        QString pngName = QString("%1/templateImageCache/%2.png").arg(dataPath).arg(fi.baseName());
+                        generateThumbnail(dirIt.filePath(), pngName);
+                        }
+                  }
+		}
+      
+      QDirIterator dirIt2(mscoreGlobalShare + "templates", QDirIterator::Subdirectories);
+      while (dirIt2.hasNext()) {
+            dirIt2.next();
+            if (QFileInfo(dirIt2.filePath()).isFile()) {
+            	QString suffix = QFileInfo(dirIt2.filePath()).suffix();
+                  if (suffix == "mscx" || suffix == "mscz") {
+                        QFileInfo fi(dirIt2.filePath());
+                        QString pngName = QString("%1/templateImageCache/%2.png").arg(dataPath).arg(fi.baseName());;
+                        generateThumbnail(dirIt2.filePath(), pngName);
+                        }
+                  }
+		}
+      }
 
 //---------------------------------------------------------
 //   synthesizerFactory
