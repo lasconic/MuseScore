@@ -2006,15 +2006,20 @@ void Score::cmdDeleteSelection()
 
             for (Element* e : el) {
                   // these are the linked elements we are about to delete
-                  LinkedElements links = *e->links();
+                  const LinkedElements* links = nullptr;
+                  if (e->links()) {
+                        links = e->links();
+                        }
 
                   // delete element if we have not done so already
                   if (!deletedElements.contains(e))
                         deleteItem(e);
 
                   // add these linked elements to list of already-deleted elements
-                  for (ScoreElement* se : links)
-                        deletedElements.append(se);
+                  if (links) {
+                        for (ScoreElement* se : *links)
+                              deletedElements.append(se);
+                        }
                   }
 
             }
