@@ -512,11 +512,13 @@ QPointF Element::pagePos() const
       if (_flags & ElementFlag::ON_STAFF) {
             System* system = nullptr;
             if (parent()->type() == Element::Type::SEGMENT)
-                  system = static_cast<Segment*>(parent())->measure()->system();
+                  system = static_cast<Segment*>(parent())->system();
             else if (parent()->type() == Element::Type::MEASURE)     // used in measure number
                   system = static_cast<Measure*>(parent())->system();
             else if (parent()->type() == Element::Type::SYSTEM)
                   system = static_cast<System*>(parent());
+            else if (parent()->type() == Element::Type::FRET_DIAGRAM)
+                  system = static_cast<Segment*>(parent()->parent())->system();
             else
                   {Q_ASSERT(false);}
             if (system) {
@@ -552,6 +554,8 @@ QPointF Element::canvasPos() const
                   system = static_cast<Measure*>(parent())->system();
             else if (parent()->type() == Element::Type::SYSTEM)
                   system = static_cast<System*>(parent());
+            else if (parent()->type() == Element::Type::FRET_DIAGRAM)
+                  system = static_cast<Segment*>(parent()->parent())->system();
             else
                   {Q_ASSERT(false);}
             if (system) {

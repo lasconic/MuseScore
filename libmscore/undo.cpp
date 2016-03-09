@@ -1136,13 +1136,25 @@ void Score::undoAddElement(Element* element)
                || element->type() == Element::Type::STAFF_TEXT
                || element->type() == Element::Type::FRET_DIAGRAM
                || element->type() == Element::Type::HARMONY) {
-                  Segment* segment = static_cast<Segment*>(element->parent());
+                  Segment* segment = nullptr;
+                  if (element->type() == Element::Type::HARMONY && element->parent()->type() == Element::Type::FRET_DIAGRAM)
+                        segment = static_cast<Segment*>(element->parent()->parent());
+                  else
+                        segment = static_cast<Segment*>(element->parent());
                   int tick         = segment->tick();
                   Measure* m       = score->tick2measure(tick);
                   Segment* seg     = m->undoGetSegment(Segment::Type::ChordRest, tick);
                   int ntrack       = staffIdx * VOICES + element->voice();
                   ne->setTrack(ntrack);
-                  ne->setParent(seg);
+                  if (element->type() == Element::Type::HARMONY && element->parent()->type() == Element::Type::FRET_DIAGRAM) {
+                        Element* np = nullptr;
+                        for (Element* e : segment->annotations())
+                              if (e->type() == Element::Type::FRET_DIAGRAM)
+                                    np = e;
+                        ne->setParent(np);
+                        }
+                  else
+                        ne->setParent(seg);
                   undo(new AddElement(ne));
                   // transpose harmony if necessary
                   if (element->type() == Element::Type::HARMONY && ne != element) {
