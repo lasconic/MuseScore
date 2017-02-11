@@ -6,36 +6,42 @@ if [ "${TRAVIS_PULL_REQUEST}" = "true" ]; then
 fi
 
 # install dependencies
-wget -c --no-check-certificate -nv -O bottles.zip https://musescore.org/sites/musescore.org/files/bottles-MuseScore-3.0.zip
-unzip bottles.zip
+#wget -c --no-check-certificate -nv -O bottles.zip https://musescore.org/sites/musescore.org/files/bottles-MuseScore-3.0.zip
+#unzip bottles.zip
 
 # we don't use freetype
-rm bottles/freetype*
+#rm bottles/freetype*
 
 brew update
 
 # additional dependencies
 brew install jack lame
+brew install libogg libvorbis flac libsndfile portaudio
 
-rm -rf /usr/local/Cellar/libogg
-tar xzvf bottles/libogg*.tar.gz -C /usr/local/Cellar
-brew link libogg
-
-rm -rf /usr/local/Cellar/libvorbis
-tar xzvf bottles/libvorbis*.tar.gz -C /usr/local/Cellar
-brew link libvorbis
-
-rm -rf /usr/local/Cellar/flac
-tar xzvf bottles/flac*.tar.gz -C /usr/local/Cellar
-brew link flac
-
-rm -rf /usr/local/Cellar/libsndfile
-tar xzvf bottles/libsndfile*.tar.gz -C /usr/local/Cellar
-brew link libsndfile
-
-rm -rf /usr/local/Cellar/portaudio
-tar xzvf bottles/portaudio*.tar.gz -C /usr/local/Cellar
-brew link portaudio
+#brew unlink libogg
+#rm -rf /usr/local/Cellar/libogg
+#tar xzvf bottles/libogg*.tar.gz -C /usr/local/Cellar
+#brew link libogg
+#
+#brew unlink libvorbis
+#rm -rf /usr/local/Cellar/libvorbis
+#tar xzvf bottles/libvorbis*.tar.gz -C /usr/local/Cellar
+#brew link libvorbis
+#
+#brew unlink flac
+#rm -rf /usr/local/Cellar/flac
+#tar xzvf bottles/flac*.tar.gz -C /usr/local/Cellar
+#brew link flac
+#
+#brew unlink libsndfile
+#rm -rf /usr/local/Cellar/libsndfile
+#tar xzvf bottles/libsndfile*.tar.gz -C /usr/local/Cellar
+#brew link libsndfile
+#
+#brew unlink portaudio
+#rm -rf /usr/local/Cellar/portaudio
+#tar xzvf bottles/portaudio*.tar.gz -C /usr/local/Cellar
+#brew link portaudio
 
 #update ruby
 rvm uninstall 2.0.0-p648
