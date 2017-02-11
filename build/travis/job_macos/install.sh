@@ -6,11 +6,11 @@ if [ "${TRAVIS_PULL_REQUEST}" = "true" ]; then
 fi
 
 # install dependencies
-#wget -c --no-check-certificate -nv -O bottles.zip https://musescore.org/sites/musescore.org/files/bottles-MuseScore-3.0.zip
-#unzip bottles.zip
+wget -c --no-check-certificate -nv -O bottles.zip https://musescore.org/sites/musescore.org/files/bottles-MuseScore-3.0.zip
+unzip bottles.zip
 
 # we don't use freetype
-#rm bottles/freetype*
+rm bottles/freetype*
 
 brew update
 
