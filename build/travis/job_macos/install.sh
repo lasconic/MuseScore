@@ -16,33 +16,21 @@ brew update
 
 # additional dependencies
 brew install jack lame
+#brew install libogg libvorbis flac libsndfile portaudio
 
-brew unlink libogg
-rm -rf /usr/local/Cellar/libogg
-tar xzvf bottles/libogg*.tar.gz -C /usr/local/Cellar
-brew link libogg
+function installBottleManually {
+  brew unlink $1
+  rm -rf /usr/local/Cellar/$1
+  tar xzvf bottles/$1*.tar.gz -C /usr/local/Cellar
+  find /usr/local/Cellar/$1 -type f -name '*.pc' -exec sed -i '' 's:@@HOMEBREW_CELLAR@@:/usr/local/Cellar:g' {} +
+  brew link $1
+}
 
-brew unlink libvorbis
-rm -rf /usr/local/Cellar/libvorbis
-tar xzvf bottles/libvorbis*.tar.gz -C /usr/local/Cellar
-brew link libvorbis
-
-brew unlink flac
-rm -rf /usr/local/Cellar/flac
-tar xzvf bottles/flac*.tar.gz -C /usr/local/Cellar
-brew link flac
-
-brew unlink libsndfile
-rm -rf /usr/local/Cellar/libsndfile
-tar xzvf bottles/libsndfile*.tar.gz -C /usr/local/Cellar
-brew link libsndfile
-
-brew unlink portaudio
-rm -rf /usr/local/Cellar/portaudio
-tar xzvf bottles/portaudio*.tar.gz -C /usr/local/Cellar
-brew link portaudio
-
-ls -la  /usr/local/Cellar
+installBottleManually libogg
+installBottleManually libvorbis
+installBottleManually flac
+installBottleManually libsndfile
+installBottleManually portaudio
 
 #update ruby
 rvm uninstall 2.0.0-p648
