@@ -4737,11 +4737,6 @@ void ScoreView::setCursorVisible(bool v)
 
 void ScoreView::cmdTuplet(int n, ChordRest* cr)
       {
-      if (cr->durationType() < TDuration(TDuration::DurationType::V_128TH) && cr->durationType() != TDuration(TDuration::DurationType::V_MEASURE)) {
-            mscore->noteTooShortForTupletDialog();
-            return;
-            }
-
       Fraction f(cr->duration());
       Tuplet* ot  = cr->tuplet();
 
@@ -4751,6 +4746,10 @@ void ScoreView::cmdTuplet(int n, ChordRest* cr)
       while (ratio.numerator() >= ratio.denominator()*2) {
             ratio /= 2;
             fr    /= 2;
+            }
+      if (fr.denominator() > 1024) {
+            mscore->noteTooShortForTupletDialog();
+            return;
             }
 
       Tuplet* tuplet = new Tuplet(_score);

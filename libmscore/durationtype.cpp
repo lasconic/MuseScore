@@ -114,8 +114,7 @@ int TDuration::ticks() const
             case DurationType::V_ZERO:
             case DurationType::V_MEASURE:
                   return 0;
-            default:
-            case DurationType::V_INVALID:
+            default:  // DurationType::V_INVALID
                   return -1;
             }
       int tmp = t;
@@ -145,10 +144,10 @@ QString TDuration::name() const
             case DurationType::V_MEASURE:   return "measure";
             case DurationType::V_BREVE:     return "breve";
             case DurationType::V_LONG:      return "long";
-            default:
-qDebug("TDuration::name(): invalid duration type %d", static_cast<int>(_val));
-            case DurationType::V_ZERO:
-            case DurationType::V_INVALID:   return "";
+            default: { // V_ZERO or V_INVALID
+                  qDebug("TDuration::name(): invalid duration type %d", static_cast<int>(_val));
+                  return "";
+                  }
             }
       }
 
@@ -184,9 +183,7 @@ NoteHead::Type TDuration::headType() const
             case DurationType::V_LONG:
                   headType = NoteHead::Type::HEAD_BREVIS;
                   break;
-            default:
-            case DurationType::V_INVALID:
-            case DurationType::V_ZERO:
+            default:  // V_ZERO or V_INVALID
                   headType = NoteHead::Type::HEAD_QUARTER;
                   break;
             }

@@ -131,7 +131,7 @@ Segment* Score::tick2segment(int tick, bool first, SegmentType st, bool useMMres
             m = tick2measure(tick);
 
       if (m == 0) {
-            qDebug("   no segment for tick %d", tick);
+            qDebug("   No segment for tick %d, returning 0", tick);
             return 0;
             }
       for (Segment* segment = m->first(st); segment;) {
@@ -142,6 +142,7 @@ Segment* Score::tick2segment(int tick, bool first, SegmentType st, bool useMMres
                   return segment;
             segment = nsegment;
             }
+      qDebug("tick2segment failed for tick %d, returning 0", tick);
       return 0;
       }
 

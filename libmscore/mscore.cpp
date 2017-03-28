@@ -102,7 +102,12 @@ qreal   MScore::nudgeStep50;
 int     MScore::defaultPlayDuration;
 
 QString MScore::lastError;
-int     MScore::division    = 480; // 3840;   // pulses per quarter note (PPQ) // ticks per beat
+
+// Pulses per quarter.
+// This number is arbitrarily high because tests show it is
+// fairly stable with unusual tuplets, but later if ticks distanced
+// further from libmscore for safer tuplet support, this can be reduced
+int     MScore::division    = 4096;
 int     MScore::sampleRate  = 44100;
 int     MScore::mtcType;
 
