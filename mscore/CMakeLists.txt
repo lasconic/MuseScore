@@ -363,6 +363,7 @@ target_link_libraries(mscore
       qzip
       beatroot
       kqoauth
+      qinputeventrecorder
       )
 
 if (USE_SYSTEM_FREETYPE)

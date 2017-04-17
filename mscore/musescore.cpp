@@ -1217,6 +1217,16 @@ MuseScore::MuseScore()
       a->setCheckable(true);
       a->setChecked(true);
       menuDebug->addAction(a);
+      menuDebug->addSeparator();
+      a = getAction("toggle-record-ui-events");
+      a->setCheckable(true);
+      menuDebug->addAction(a);
+      a = getAction("replay-ui-events");
+      menuDebug->addAction(a);
+      a = getAction("load-ui-events");
+      menuDebug->addAction(a);
+      a = getAction("save-ui-events");
+      menuDebug->addAction(a);
 #endif
 
       //---------------------
@@ -1309,6 +1319,9 @@ MuseScore::MuseScore()
             cornerLabel->setPixmap(QPixmap(":/data/mscore.png"));
             cornerLabel->setGeometry(width() - 48, 0, 48, 48);
             }
+
+      QInputEventRecorder::nameAllWidgets(this);
+      _eventRecorder.setObj(this);
       }
 
 MuseScore::~MuseScore()
@@ -5000,6 +5013,31 @@ void MuseScore::cmd(QAction* a, const QString& cmd)
                   cs->setLayoutAll();
                   cs->update();
                   }
+            }
+      else if (cmd == "toggle-record-ui-events") {
+            if (!getAction("toggle-record-ui-events")->isChecked()) {
+                  //record
+                  _eventRecorder.record();
+                  }
+            else {
+                  _eventRecorder.stop();
+                  }
+            }
+      else if (cmd == "replay-ui-events") {
+            _eventRecorder.replay(10.0f / 2);
+            getAction("toggle-record-ui-events")->setChecked(true);
+            }
+      else if (cmd == "load-ui-events") {
+            _eventRecorder.stop();
+            getAction("toggle-record-ui-events")->setChecked(false);
+	      QString fileName = QFileDialog::getOpenFileName(this);
+	      if (!fileName.isEmpty())
+		      _eventRecorder.load(fileName);
+            }
+      else if (cmd == "save-ui-events") {
+            QString fileName = QFileDialog::getSaveFileName(this);
+	      if (!fileName.isEmpty())
+		      _eventRecorder.save(fileName);
             }
 #endif
       else {

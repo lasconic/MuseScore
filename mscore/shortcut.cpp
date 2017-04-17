@@ -3522,6 +3522,46 @@ Shortcut Shortcut::_sc[] = {
          0,
          Icons::Invalid_ICON,
          Qt::ApplicationShortcut
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_ALL,
+         "toggle-record-ui-events",
+         "Record UI events",
+         "Record UI events",
+         0,
+         Icons::Invalid_ICON,
+         Qt::ApplicationShortcut
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_ALL,
+         "replay-ui-events",
+         "Replay UI events",
+         "Replay UI events",
+         0,
+         Icons::Invalid_ICON,
+         Qt::ApplicationShortcut
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_ALL,
+         "load-ui-events",
+         "Load UI events",
+         "Load UI events",
+         0,
+         Icons::Invalid_ICON,
+         Qt::ApplicationShortcut
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_ALL,
+         "save-ui-events",
+         "Save UI events",
+         "Save UI events",
+         0,
+         Icons::Invalid_ICON,
+         Qt::ApplicationShortcut
          }
 #endif
       };

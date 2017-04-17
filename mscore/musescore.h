@@ -34,6 +34,7 @@
 #include "libmscore/musescoreCore.h"
 #include "libmscore/score.h"
 #include "newwizard.h"
+#include "thirdparty/qinputeventrecorder/qinputeventrecorder.h"
 
 namespace Ms {
 
@@ -399,6 +400,8 @@ class MuseScore : public QMainWindow, public MuseScoreCore {
       QToolButton* _playButton;
 
       qreal _physicalDotsPerInch;
+
+      QInputEventRecorder _eventRecorder;
 
       //---------------------
 
