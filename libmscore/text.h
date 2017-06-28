@@ -247,7 +247,6 @@ class Text : public Element {
       void layoutFrame();
       void layoutEdit();
       void createLayout();
-      void insertSym(EditData& ed, SymId id);
 
    public:
       Text(Score* = 0);
@@ -274,6 +273,7 @@ class Text : public Element {
       QString plainText() const;
 
       void insertText(EditData&, const QString&);
+      void insertSym(EditData& ed, SymId id);
 
       virtual void layout() override;
       virtual void layout1();

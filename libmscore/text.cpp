@@ -1034,38 +1034,11 @@ void Text::createLayout()
                               SymId id = Sym::name2id(sym);
 
                               if (id == SymId::noSym) {
-                                    // Unicode
-                                    struct UnicodeAlternate {
-                                          const char* name;
-                                          int a;
-                                          int b;
-                                          }
-                                    unicodes[] = {
-                                           { "unicodeNoteDoubleWhole", 0xd834, 0xdd5c },  // TODO: use unicode code points
-                                           { "unicodeNoteWhole",       0xd834, 0xdd5d },
-                                           { "unicodeNoteHalfUp",      0xd834, 0xdd5e },
-                                           { "unicodeNoteQuarterUp",   0xd834, 0xdd5f },
-                                           { "unicodeNote8thUp",       0xd834, 0xdd60 },
-                                           { "unicodeNote16thUp",      0xd834, 0xdd61 },
-                                           { "unicodeNote32ndUp",      0xd834, 0xdd62 },
-                                           { "unicodeNote64thUp",      0xd834, 0xdd63 },
-                                           { "unicodeNote128thUp",     0xd834, 0xdd64 },
-                                           { "unicodeAugmentationDot", 0xd834, 0xdd6D }
-                                           };
-
-                                    uint code = 0;
-                                    for (const UnicodeAlternate& unicode : unicodes) {
-                                          if (unicode.name == sym) {
-                                                code = QChar::surrogateToUcs4(unicode.a, unicode.b);
-                                                break;
-                                                }
-                                          }
-                                    if (code)
-                                          insert(&cursor, code);
-                                    else
-                                          qDebug("symbol <%s> not known", qPrintable(sym));
+                                    if (sym.startsWith("unicode"))
+                                          sym.replace("unicode", "met");
+                                    id = Sym::name2id(sym);
                                     }
-                              else {
+                              if (id != SymId::noSym) {
                                     CharFormat fmt = *cursor.format();  // save format
                                     // uint code = score()->scoreFont()->sym(id).code();
                                     uint code = ScoreFont::fallbackFont()->sym(id).code();
@@ -1075,6 +1048,8 @@ void Text::createLayout()
                                     insert(&cursor, code);
                                     cursor.setFormat(fmt);  // restore format
                                     }
+                              else
+                                    qDebug("symbol <%s> not known", qPrintable(sym));
                               }
                         else if (token.startsWith("font ")) {
                               token = token.mid(5);

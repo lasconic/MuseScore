@@ -196,7 +196,7 @@ subdirs (
         libmscore/tools                # Some tests disabled
         libmscore/transpose
         libmscore/tuplet
-#        libmscore/text        work in progress...
+        libmscore/text
         importmidi
         capella
         biab
