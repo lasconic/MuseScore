@@ -65,12 +65,12 @@ void ResourceManager::displayLanguages()
 
       int row = 0;
       int col = 0;
-      QPushButton* updateButtons[rowCount];
+      QPushButton** updateButtons = new QPushButton*[rowCount];
       QPushButton* temp;
       languagesTable->verticalHeader()->show();
 
       // move current language to first row
-	QStringList languages = result.object().keys();
+	  QStringList languages = result.object().keys();
       QString lang = mscore->getLocaleISOCode();
       int index = languages.indexOf(lang);
       if (index < 0 &&  lang.size() > 2) {
@@ -129,6 +129,7 @@ void ResourceManager::displayLanguages()
                   }
             row++;
             }
+	  delete[] updateButtons;
       }
 
 bool ResourceManager::verifyLanguageFile(QString filename, QString hash)

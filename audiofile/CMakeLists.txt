@@ -26,7 +26,7 @@ add_library (audiofile STATIC
 set_target_properties (
       audiofile
       PROPERTIES
-         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch"
+         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
       )
 
 xcode_pch(audiofile all)

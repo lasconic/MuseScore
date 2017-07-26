@@ -112,12 +112,9 @@ bool BBFile::read(const QString& name)
 
       int idx = 0;
       _version = a[idx++];
-      switch(_version) {
-            case 0x43 ... 0x49:
-                  break;
-            default:
-                  qDebug("BB: unknown file version %02x", _version);
-                  return false;
+	  if (_version < 0x43 || _version > 0x49) {
+            qDebug("BB: unknown file version %02x", _version);
+            return false;
             }
 
       qDebug("read <%s> version 0x%02x", qPrintable(name), _version);

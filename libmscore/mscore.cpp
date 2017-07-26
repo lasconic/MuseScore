@@ -185,7 +185,9 @@ const char* toString(Direction val)
             case Direction::UP:   return "up";
             case Direction::DOWN: return "down";
             }
-      __builtin_unreachable();
+#ifndef Q_CC_MSVC
+	  __builtin_unreachable();
+#endif
       }
 
 //---------------------------------------------------------

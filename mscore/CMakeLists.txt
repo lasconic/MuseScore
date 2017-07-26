@@ -434,13 +434,13 @@ if (MINGW)
    if(CMAKE_BUILD_TYPE MATCHES "DEBUG")
      set_target_properties( mscore
         PROPERTIES
-           COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch ${QT_DEFINITIONS} -DQT_SVG_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB"
+           COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall ${QT_DEFINITIONS} -DQT_SVG_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB"
            LINK_FLAGS "-mwindows -mconsole -L ${CROSSQT}/lib"
         )
    else(CMAKE_BUILD_TYPE MATCHES "DEBUG")
      set_target_properties( mscore
           PROPERTIES
-             COMPILE_FLAGS "${PCH_INCLUDE} -Wall -Wextra -Winvalid-pch ${QT_DEFINITIONS} -DQT_SVG_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB"
+             COMPILE_FLAGS "${PCH_INCLUDE} -Wall ${QT_DEFINITIONS} -DQT_SVG_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB"
              LINK_FLAGS "-Wl,-S -mwindows -L ${CROSSQT}/lib"
           )
    endif(CMAKE_BUILD_TYPE MATCHES "DEBUG")
@@ -566,7 +566,7 @@ else (MINGW)
    set_target_properties (
       mscore
       PROPERTIES
-         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wno-overloaded-virtual -Winvalid-pch"
+         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
       )
 
    if (OMR)
@@ -583,12 +583,12 @@ else (MINGW)
    endif (APPLE)
 
    # 'gold' does not use indirect shared libraries for symbol resolution, Linux only
-   if (NOT APPLE)
+   if (NOT APPLE AND NOT WIN32)
       if(USE_JACK)
          target_link_libraries(mscore dl)
       endif(USE_JACK)
       target_link_libraries(mscore rt)
-   endif (NOT APPLE)
+   endif (NOT APPLE AND NOT WIN32)
 
    if (APPLE)
       set_target_properties(mscore

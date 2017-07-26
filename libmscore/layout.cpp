@@ -1557,8 +1557,8 @@ void Score::respace(std::vector<ChordRest*>* elements)
       qreal x1       = cr1->segment()->pos().x();
       qreal x2       = cr2->segment()->pos().x();
 
-      qreal width[n-1];
-      int ticksList[n-1];
+      qreal* width = new qreal[n-1];
+      int* ticksList = new int[n-1];
       int minTick = 100000;
 
       for (int i = 0; i < n-1; ++i) {
@@ -1603,6 +1603,8 @@ void Score::respace(std::vector<ChordRest*>* elements)
             qreal dx = x - cr->segment()->pos().x();
             cr->rxpos() += dx;
             }
+	  delete[] width;
+	  delete[] ticksList;
       }
 
 //---------------------------------------------------------

@@ -4,10 +4,10 @@ find_path(LAME_INCLUDE_DIR lame/lame.h)
 find_library(LAME_LIBRARY NAMES mp3lame PATHS /opt/local/lib /usr/local/Cellar/lame/*/lib NO_DEFAULT_PATH)
 find_library(LAME_LIBRARY NAMES mp3lame)
 
-if (MINGW)
+if (WIN32)
   set(LAME_INCLUDE_DIR "")
   set(LAME_LIBRARY "")
-endif(MINGW)
+endif(WIN32)
 
 if (LAME_INCLUDE_DIR AND LAME_LIBRARY)
       set(LAME_FOUND TRUE)

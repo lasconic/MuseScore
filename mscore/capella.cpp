@@ -1400,11 +1400,12 @@ void TextObj::read()
       {
       BasicRectObj::read();
       unsigned size = cap->readUnsigned();
-      char txt[size+1];
+      char* txt = new char[size+1];
       cap->read(txt, size);
       txt[size] = 0;
       text = QString(txt);
       // qDebug("read textObj len %d <%s>", size, txt);
+	  delete[] txt;
       }
 
 //---------------------------------------------------------
@@ -1484,9 +1485,10 @@ void MetafileObj::read()
       {
       BasicRectObj::read();
       unsigned size = cap->readUnsigned();
-      char enhMetaFileBits[size];
+      char* enhMetaFileBits = new char[size];
       cap->read(enhMetaFileBits, size);
       // qDebug("MetaFileObj::read %d bytes", size);
+	  delete[] enhMetaFileBits;
       }
 
 //---------------------------------------------------------
@@ -2198,7 +2200,8 @@ void Capella::readStaveLayout(CapStaffLayout* sl, int idx)
             uchar iMin = readByte();
             Q_UNUSED(iMin);
             uchar n    = readByte();
-            Q_ASSERT (n > 0 and iMin + n <= 128);
+			Q_ASSERT(n > 0);
+			Q_ASSERT(iMin + n <= 128);
             f->read(sl->soundMapIn, n);
             curPos += n;
             }
@@ -2206,7 +2209,8 @@ void Capella::readStaveLayout(CapStaffLayout* sl, int idx)
             unsigned char iMin = readByte();
             Q_UNUSED(iMin);
             unsigned char n    = readByte();
-            Q_ASSERT (n > 0 and iMin + n <= 128);
+			Q_ASSERT(n > 0);
+			Q_ASSERT(iMin + n <= 128);
             f->read(sl->soundMapOut, n);
             curPos += n;
             }

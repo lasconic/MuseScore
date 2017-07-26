@@ -431,8 +431,9 @@ void MidiFile::skip(qint64 len)
       {
       if (len <= 0)
             return;
-      char tmp[len];
+      char* tmp = new char[len];
       read(tmp, len);
+	  delete[] tmp;
       }
 
 /*---------------------------------------------------------

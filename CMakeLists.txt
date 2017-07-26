@@ -66,11 +66,11 @@ set(USE_SSE           TRUE)
 set(SCRIPT_INTERFACE  TRUE)
 
 # Disable components not supported on Windows
-if (MINGW)
+if (WIN32)
       set(WIN_NOT_AVAIL "Not available on Windows")
       option(BUILD_PULSEAUDIO ${WIN_NOT_AVAIL} OFF)
       option(BUILD_ALSA ${WIN_NOT_AVAIL} OFF)
-endif (MINGW)
+endif (WIN32)
 
 # Disable components not supported on Mac
 if (APPLE)
@@ -80,31 +80,31 @@ if (APPLE)
 endif (APPLE)
 
 # Disable components not supported on Linux/BSD
-if (NOT APPLE AND NOT MINGW)
+if (NOT APPLE AND NOT WIN32)
       set(NIX_NOT_AVAIL "Not available on Linux/BSD")
       #option(BUILD_PORTMIDI "PortMidi disabled on Linux. (It uses ALSA but it's better to use ALSA directly)" OFF)
-endif (NOT APPLE AND NOT MINGW)
+endif (NOT APPLE AND NOT WIN32)
 
 option(AEOLUS        "Enable pipe organ synthesizer"      OFF)
 option(ZERBERUS      "Enable experimental SFZ sampler"    ON)
 option(OSC           "Enable OSC remote control protocol" ON)
-option(OMR           "Enable PDF import"  ON)                 # OMR - optical music recognition
+option(OMR           "Enable PDF import"  OFF)                 # OMR - optical music recognition
 # For installation see: http://ubuntuforums.org/showthread.php?t=1647350
 option(OCR           "Enable OCR, requires OMR" OFF)           # Requires tesseract 3.0, needs work on mac/win
-option(SOUNDFONT3    "Ogg Vorbis compressed fonts" ON)         # Enable Ogg Vorbis compressed fonts, requires Ogg & Vorbis
-option(HAS_AUDIOFILE "Enable audio export" ON)                 # Requires libsndfile
+option(SOUNDFONT3    "Ogg Vorbis compressed fonts" OFF)         # Enable Ogg Vorbis compressed fonts, requires Ogg & Vorbis
+option(HAS_AUDIOFILE "Enable audio export" OFF)                 # Requires libsndfile
 option(USE_SYSTEM_QTSINGLEAPPLICATION "Use system QtSingleApplication" OFF)
 option(USE_SYSTEM_FREETYPE "Use system FreeType" OFF)          # requires freetype >= 2.5.2, does not work on win
-option(BUILD_LAME    "Enable MP3 export" ON)                   # Requires libmp3lame (non-free), call CMake with -DBUILD_LAME="OFF" to disable
+option(BUILD_LAME    "Enable MP3 export" OFF)                   # Requires libmp3lame (non-free), call CMake with -DBUILD_LAME="OFF" to disable
 
 SET(JACK_LONGNAME "JACK (Jack Audio Connection Kit)")
 SET(JACK_MIN_VERSION "0.98.0")
-option(BUILD_JACK    "Build with support for ${JACK_LONGNAME} audio backend. JACK >= ${JACK_MIN_VERSION} will be needed." ON)
+option(BUILD_JACK    "Build with support for ${JACK_LONGNAME} audio backend. JACK >= ${JACK_MIN_VERSION} will be needed." OFF)
 option(BUILD_PULSEAUDIO "Build with support for PulseAudio audio backend." ON)
 option(BUILD_ALSA "Build with support for ALSA audio backend." ON)
-option(BUILD_PORTAUDIO "Build with support for PortAudio audio backend." ON)
+option(BUILD_PORTAUDIO "Build with support for PortAudio audio backend." OFF)
 option(BUILD_PORTMIDI "Build with support for PortAudio's MIDI features." ${BUILD_PORTAUDIO}) # PortAudio required
-option(BUILD_PCH "Build using precompiled headers." ON)
+option(BUILD_PCH "Build using precompiled headers." OFF)
 option(BUILD_FOR_WINSTORE "Build for the Windows Store." OFF)
 
 if (APPLE)
@@ -152,15 +152,17 @@ if (APPLE)
    SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
    SET(CMAKE_INSTALL_RPATH "${QT_INSTALL_PREFIX}/lib")
 else (APPLE)
-   if (MINGW)
+   if (WIN32)
+      if (MINGW)
       # -mno-ms-bitfields see #22048
       set(CMAKE_CXX_FLAGS_DEBUG   "-std=c++11 -mno-ms-bitfields -g")
       set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 -mno-ms-bitfields -O2 -DNDEBUG -DQT_NO_DEBUG")
       set(CMAKE_EXE_LINKER_FLAGS "-Wl,--large-address-aware")
-   else (MINGW)
+	  endif (MINGW)
+   else (WIN32)
       set(CMAKE_CXX_FLAGS_DEBUG   "-std=gnu++11 -fPIC -g -Wall -Wextra -Woverloaded-virtual")
       set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++11 -fPIC -O2 -DNDEBUG -DQT_NO_DEBUG -DQT_NO_DEBUG_OUTPUT")
-   endif (MINGW)
+   endif (WIN32)
 endif(APPLE)
 
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
@@ -243,13 +245,13 @@ endif (BUILD_ALSA)
 ## MIDI
 ##
 
-if (APPLE OR MINGW)
+if (APPLE OR WIN32)
       set (HAS_MIDI 1)
-else (APPLE OR MINGW)
+else (APPLE OR WIN32)
       if (USE_ALSA)
             set (HAS_MIDI 1)
       endif (USE_ALSA)
-endif (APPLE OR MINGW)
+endif (APPLE OR WIN32)
 
 ##
 ## PulseAudio
@@ -269,12 +271,12 @@ endif (BUILD_PULSEAUDIO)
 ##
 ## LAME
 ##
-if (APPLE OR MINGW)
+if (APPLE OR WIN32)
       IF (BUILD_LAME)
             include (FindLame)
             set (USE_LAME 1)
       ENDIF (BUILD_LAME)
-else (APPLE OR MINGW)
+else (APPLE OR WIN32)
       IF (BUILD_LAME)
             include (FindLame)
             IF (LAME_FOUND)
@@ -287,14 +289,14 @@ else (APPLE OR MINGW)
       ELSE (BUILD_LAME)
             MESSAGE(STATUS "LAME MP3 support disabled")
       ENDIF (BUILD_LAME)
-endif (APPLE OR MINGW)
+endif (APPLE OR WIN32)
 
 ##
 ## Find JACK >= JACK_MIN_VERSION
 ##
 
 IF(BUILD_JACK)
-     IF(MINGW)
+     IF(WIN32)
            set (USE_JACK 1)
            IF("$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "")
               IF("$ENV{PROCESSOR_ARCHITECTURE}" STREQUAL "x86")
@@ -317,7 +319,7 @@ IF(BUILD_JACK)
               ENDIF("$ENV{PROCESSOR_ARCHITECTURE}" STREQUAL "x86")
            ENDIF("$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "")
            MESSAGE("JACK support enabled.")
-     ELSE(MINGW)
+     ELSE(WIN32)
            PKGCONFIG1 (jack ${JACK_MIN_VERSION} JACK_INCDIR JACK_LIBDIR JACK_LIB JACK_CPP)
            IF(JACK_INCDIR)
                  MESSAGE(STATUS "${JACK_LONGNAME} >= ${JACK_MIN_VERSION} found. jack support enabled.")
@@ -326,7 +328,7 @@ IF(BUILD_JACK)
                  MESSAGE(STATUS "${JACK_LONGNAME} >= ${JACK_MIN_VERSION} not found")
                  MESSAGE(SEND_ERROR "Error: JACK support requested (BUILD_JACK=${BUILD_JACK}), but JACK was not found")
            ENDIF(JACK_INCDIR)
-     ENDIF(MINGW)
+     ENDIF(WIN32)
 ELSE(BUILD_JACK)
      MESSAGE(STATUS "${JACK_LONGNAME} support disabled")
 ENDIF(BUILD_JACK)
@@ -337,9 +339,9 @@ ENDIF(BUILD_JACK)
 ##
 
 if (BUILD_PORTAUDIO)
-    if (MINGW)
+    if (WIN32)
         set ( USE_PORTAUDIO 1 )
-    else (MINGW)
+    else (WIN32)
         PKGCONFIG1 (portaudio-2.0 19 PORTAUDIO_INCDIR PORTAUDIO_LIBDIR PORTAUDIO_LIB PORTAUDIO_CPP)
         if (PORTAUDIO_INCDIR)
               message("PortAudio found. PortAudio support enabled. INCDIR ${PORTAUDIO_INCDIR}, LIBDIR ${PORTAUDIO_LIBDIR}, LIB ${PORTAUDIO_LIB}")
@@ -347,7 +349,7 @@ if (BUILD_PORTAUDIO)
         else (PORTAUDIO_INCDIR)
               message(SEND_ERROR "Error: PortAudio support requested (BUILD_PORTAUDIO=${BUILD_PORTAUDIO}), but portaudio-2.0 version 19 was not found (package portaudio19-dev)")
         endif (PORTAUDIO_INCDIR)
-    endif (MINGW)
+    endif (WIN32)
 else (BUILD_PORTAUDIO)
      message(STATUS "PortAudio support disabled")
 endif (BUILD_PORTAUDIO)
@@ -434,7 +436,7 @@ configure_file (
       ${PROJECT_BINARY_DIR}/config.h
       )
 
-if (NOT MINGW AND NOT APPLE)
+if (NOT WIN32 AND NOT APPLE)
     #### PACKAGING for Linux and BSD based systems (more in mscore/CMakeLists.txt) ####
     #
     #     set library search path for runtime linker to load the same
@@ -530,7 +532,7 @@ if (NOT MINGW AND NOT APPLE)
     configure_file(build/Linux+BSD/musescore.xml.in musescore${MSCORE_INSTALL_SUFFIX}.xml)
     install( FILES ${PROJECT_BINARY_DIR}/musescore${MSCORE_INSTALL_SUFFIX}.xml DESTINATION share/mime/packages COMPONENT doc)
     # Note: Must now run "update-mime-database" to apply changes. This is done in the Makefile.
-endif (NOT MINGW AND NOT APPLE)
+endif (NOT WIN32 AND NOT APPLE)
 
 #
 #  Create precompiled header file
@@ -603,6 +605,7 @@ endif (NOT USE_SYSTEM_FREETYPE)
 ##
 include_directories(
    ${PROJECT_SOURCE_DIR}
+   ${PROJECT_SOURCE_DIR}/dependencies/include
    ${PROJECT_BINARY_DIR}
    ${ALSA_INCDIR}
    ${JACK_INCDIR}

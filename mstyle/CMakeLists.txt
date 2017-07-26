@@ -49,7 +49,7 @@ add_library (
 set_target_properties (
       mstyle
       PROPERTIES
-         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch -Wno-overloaded-virtual"
+         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
       )
 
 xcode_pch(mstyle all)

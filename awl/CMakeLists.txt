@@ -43,7 +43,7 @@ add_library (
 set_target_properties (
       awl
       PROPERTIES
-         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch"
+         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
       )
 
 xcode_pch(awl all)

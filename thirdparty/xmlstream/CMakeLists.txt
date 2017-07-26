@@ -29,7 +29,7 @@ add_library(xmlstream STATIC
 set_target_properties (
       xmlstream
       PROPERTIES
-         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch"
+         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
       )
 
 xcode_pch(xmlstream all)

@@ -37,7 +37,7 @@ add_library (
 
 set_target_properties( rtf2html
    PROPERTIES
-      COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch"
+      COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
    )
 
 xcode_pch(rtf2html all)

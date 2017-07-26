@@ -77,7 +77,7 @@ add_library (
 set_target_properties (
       libmscore
       PROPERTIES
-         COMPILE_FLAGS "-g ${PCH_INCLUDE} -Wall -Wextra -Winvalid-pch -Woverloaded-virtual"
+         COMPILE_FLAGS "-g ${PCH_INCLUDE} -Wall"
       )
 
 xcode_pch(libmscore all)

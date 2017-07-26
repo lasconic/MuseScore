@@ -964,7 +964,9 @@ const StyleWidget& EditStyle::styleWidget(StyleIdx idx) const
             if (sw.idx == idx)
                   return sw;
             }
+#ifndef Q_CC_MSVC
       __builtin_unreachable();
+#endif
       }
 
 //---------------------------------------------------------

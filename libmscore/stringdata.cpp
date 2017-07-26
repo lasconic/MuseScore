@@ -150,7 +150,7 @@ void StringData::fretChords(Chord * chord) const
       bFretting = true;
 
       // we need to keep track of string allocation
-      int bUsed[strings()];                    // initially all strings are available
+      int* bUsed = new int[strings()];                    // initially all strings are available
       for(nString=0; nString<strings(); nString++)
             bUsed[nString] = 0;
       // we also need the notes sorted in order of string (from highest to lowest) and then pitch
@@ -243,6 +243,7 @@ void StringData::fretChords(Chord * chord) const
                   note->setFretConflict(true);
 
       bFretting = false;
+	  delete[] bUsed;
       }
 
 //********************

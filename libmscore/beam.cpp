@@ -1658,7 +1658,7 @@ void Beam::layout2(std::vector<ChordRest*>crl, SpannerSegmentType, int frag)
       qreal x1 = crl[0]->stemPosX() + crl[0]->pageX() - pageX();
 
       int baseLevel = 0;      // beam level that covers all notes of beam
-      int crBase[n];          // offset of beam level 0 for each chord
+      int* crBase = new int[n];          // offset of beam level 0 for each chord
       bool growDown = _up;
 
       for (int beamLevel = 0; beamLevel < beamLevels; ++beamLevel) {
@@ -1955,6 +1955,7 @@ void Beam::layout2(std::vector<ChordRest*>crl, SpannerSegmentType, int frag)
             if (tremolo)
                   tremolo->layout();
             }
+	  delete[] crBase;
       }
 
 //---------------------------------------------------------

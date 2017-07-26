@@ -27,3 +27,8 @@ vtest/html
 thirdparty/mupdf-qt
 vtest/LOG
 
+# Visual Studio
+build.vs
+.vs
+Win32
+

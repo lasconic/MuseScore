@@ -44,8 +44,12 @@
 
 #include "qzipreader_p.h"
 #include "qzipwriter_p.h"
-
+#if Q_CC_MSVC
+#include <QtZlib/zlib.h>
+#undef crc32
+#else
 #include <zlib.h>
+#endif
 
 #if defined(Q_OS_WIN) or defined(Q_OS_ANDROID)
 #  undef S_IFREG

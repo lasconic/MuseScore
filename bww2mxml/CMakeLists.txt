@@ -35,7 +35,7 @@ add_library(bww STATIC
    writer.cpp
    )
 
-if (NOT MINGW AND NOT APPLE)
+if (NOT WIN32 AND NOT APPLE)
    add_executable(bww2mxml
       ${INCS}
       lexer.cpp
@@ -49,7 +49,7 @@ if (NOT MINGW AND NOT APPLE)
    set_target_properties (
          bww2mxml
          PROPERTIES
-            COMPILE_FLAGS "-x c++ -include ${PROJECT_BINARY_DIR}/all.h -g -Wall -Wextra -Winvalid-pch"
+             COMPILE_FLAGS "-x c++ -include ${PROJECT_BINARY_DIR}/all.h -g -Wall -Wextra"
          )
 
    target_link_libraries(bww2mxml
@@ -57,7 +57,7 @@ if (NOT MINGW AND NOT APPLE)
       )
    ADD_DEPENDENCIES(bww2mxml mops1)
    ADD_DEPENDENCIES(bww2mxml mops2)
-endif (NOT MINGW AND NOT APPLE)
+endif (NOT WIN32 AND NOT APPLE)
 
 xcode_pch(bww all)
 

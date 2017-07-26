@@ -487,16 +487,17 @@ void GuitarPro6::readTracks(QDomNode* track)
                                     QString tuningString = currentProperty.firstChild().toElement().text();
                                     QStringList tuningStringList = tuningString.split(" ");
                                     int strings = 0;
-                                    int tuning[tuningStringList.length()];
+                                    int* tuning = new int[tuningStringList.length()];
                                     int frets   = 21;
                                     for (auto iter = tuningStringList.begin(); iter != tuningStringList.end(); ++iter) {
                                           int currentString = (*iter).toInt();
                                           tuning[strings] = currentString;
                                           strings++;
                                           }
-                                          StringData* stringData = new StringData(frets, strings, tuning);
-                                          Instrument* instr = part->instrument();
-                                          instr->setStringData(*stringData);
+                                    StringData* stringData = new StringData(frets, strings, tuning);
+                                    Instrument* instr = part->instrument();
+                                    instr->setStringData(*stringData);
+									delete[] tuning;
                                     }
                               else if (!propertyName.compare("DiagramCollection")) {
                                     QDomNode items = currentProperty.firstChild();
@@ -1433,7 +1434,7 @@ void GuitarPro6::readBars(QDomNode* barList, Measure* measure, ClefType oldClefI
       int staffIdx = 0;
 
       // used to keep track of tuplets
-      Tuplet* tuplets[staves * 2];
+      Tuplet** tuplets = new Tuplet*[staves * 2];
       for (int track = 0; track < staves*2; ++track)
             tuplets[track] = 0;
 
@@ -1569,6 +1570,7 @@ void GuitarPro6::readBars(QDomNode* barList, Measure* measure, ClefType oldClefI
             // increment the counter for parts
             staffIdx++;
             }
+      delete[] tuplets;
       }
 
 
@@ -1694,7 +1696,7 @@ void GuitarPro6::readMasterBars(GPPartInfo* partInfo)
       QDomNode nextMasterBar = partInfo->masterBars;
       nextMasterBar = nextMasterBar.nextSibling();
       int measureCounter = 0;
-      ClefType oldClefId[staves];
+      ClefType* oldClefId = new ClefType[staves];
       hairpins = new Hairpin*[staves];
       for (int i = 0; i < staves; i++)
             hairpins[i] = 0;
@@ -1860,6 +1862,7 @@ void GuitarPro6::readMasterBars(GPPartInfo* partInfo)
             measure = measure->nextMeasure();
             bar++;
             } while (!nextMasterBar.isNull());
+			delete[] oldClefId;
       }
 
 //---------------------------------------------------------

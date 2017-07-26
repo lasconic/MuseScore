@@ -616,7 +616,7 @@ void Voice::write(unsigned n, float* out, float* reverb, float* chorus)
          * Depending on the position in the loop and the loop size, this
          * may require several runs. */
 
-      float l_dsp_buf[n];
+      float* l_dsp_buf = new float[n];
       dsp_buf = l_dsp_buf;
       memset(dsp_buf, 0, n*sizeof(float)); // init the arry with zeros so we can skip silent parts
       unsigned count;
@@ -644,6 +644,7 @@ void Voice::write(unsigned n, float* out, float* reverb, float* chorus)
             off();
 
       ticks += n;
+	  delete[] l_dsp_buf;
       }
 
 

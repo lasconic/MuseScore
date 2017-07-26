@@ -170,7 +170,7 @@ void System::layoutSystem(qreal xo1)
             columns = qMax(columns, c);
             }
 
-      qreal bracketWidth[columns];
+      qreal* bracketWidth = new qreal[columns];
       for (int i = 0; i < columns; ++i)
             bracketWidth[i] = 0.0;
 
@@ -251,7 +251,7 @@ void System::layoutSystem(qreal xo1)
 
       qreal bd = score()->styleP(StyleIdx::bracketDistance);
       if (!_brackets.empty()) {
-            for (int w : bracketWidth)
+            for (qreal w : bracketWidth)
                   _leftMargin += w + bd;
             }
 
@@ -273,6 +273,7 @@ void System::layoutSystem(qreal xo1)
             h = h * staffMag * spatium();
             s->bbox().setRect(_leftMargin + xo1, 0.0, 0.0, h);
             }
+	  delete[] bracketWidth;
 
       //---------------------------------------------------
       //  layout brackets

@@ -156,14 +156,15 @@ int GuitarPro::readUChar()
 QString GuitarPro::readPascalString(int n)
       {
       uchar l = readUChar();
-      char s[l + 1];
+      char* s = new char[l + 1];
       read(s, l);
       s[l] = 0;
       skip(n - l);
-      if(_codec)
-            return _codec->toUnicode(s);
-      else
-            return QString(s);
+	  QString re(s);
+      if (_codec)
+            re = _codec->toUnicode(s);
+	  delete[] s;
+	  return re;
       }
 
 //---------------------------------------------------------
@@ -173,13 +174,14 @@ QString GuitarPro::readPascalString(int n)
 QString GuitarPro::readWordPascalString()
       {
       int l = readInt();
-      char c[l+1];
+      char* c = new char[l+1];
       read(c, l);
       c[l] = 0;
-      if(_codec)
-            return _codec->toUnicode(c);
-      else
-            return QString::fromLocal8Bit(c);
+	  QString re = QString::fromLocal8Bit(c);
+      if (_codec)
+            re = _codec->toUnicode(c);
+	  delete[] c;
+	  return re;
       }
 
 //---------------------------------------------------------
@@ -189,13 +191,14 @@ QString GuitarPro::readWordPascalString()
 QString GuitarPro::readBytePascalString()
       {
       int l = readUChar();
-      char c[l+1];
+      char* c = new char[l+1];
       read(c, l);
       c[l] = 0;
-      if(_codec)
-            return  _codec->toUnicode(c);
-      else
-            return QString::fromLocal8Bit(c);
+	  QString re = QString::fromLocal8Bit(c);
+      if (_codec)
+            re = _codec->toUnicode(c);
+	  delete[] c;
+	  return re;      
       }
 
 //---------------------------------------------------------
@@ -208,13 +211,14 @@ QString GuitarPro::readDelphiString()
       uchar l = readUChar();
       if (maxl != l + 1)
             qFatal("readDelphiString: first word doesn't match second byte");
-      char c[l + 1];
+      char* c = new char[l + 1];
       read(c, l);
       c[l] = 0;
-      if(_codec)
-            return  _codec->toUnicode(c);
-      else
-            return QString::fromLatin1(c);
+	  QString re = QString::fromLatin1(c);
+      if (_codec)
+            re = _codec->toUnicode(c);
+	  delete[] c;
+	  return re;
       }
 
 //---------------------------------------------------------
@@ -851,7 +855,7 @@ void GuitarPro1::read(QFile* fp)
             int strings  = version > 101 ? readInt() : 6;
             for (int j = 0; j < strings; ++j)
                   tuning[j] = readInt();
-            int tuning2[strings];
+            int* tuning2 = new int[strings];
             for (int k = 0; k < strings; ++k)
                   tuning2[strings-k-1] = tuning[k];
 
@@ -860,6 +864,7 @@ void GuitarPro1::read(QFile* fp)
             Part* part = score->staff(i)->part();
             Instrument* instr = part->instrument();
             instr->setStringData(stringData);
+			delete[] tuning2;
             }
 
       measures = readInt();
@@ -900,7 +905,7 @@ void GuitarPro1::read(QFile* fp)
                   segment->add(s);
                   }
 
-            Tuplet* tuplets[staves];
+            Tuplet** tuplets = new Tuplet*[staves];
             for (int staffIdx = 0; staffIdx < staves; ++staffIdx)
                   tuplets[staffIdx] = 0;
 
@@ -1005,6 +1010,7 @@ void GuitarPro1::read(QFile* fp)
                   }
             if (bar == 1 && !mixChange)
                   setTempo(tempo, score->firstMeasure());
+			delete[] tuplets;
             }
       }
 
@@ -1298,7 +1304,7 @@ void GuitarPro2::read(QFile* fp)
             int capo         = readInt();
             /*int color        =*/ readInt();
 
-            int tuning2[strings];
+            int* tuning2 = new int[strings];
             for (int k = 0; k < strings; ++k)
                   tuning2[strings-k-1] = tuning[k];
             StringData stringData(frets, strings, tuning2);
@@ -1307,6 +1313,7 @@ void GuitarPro2::read(QFile* fp)
             instr->setStringData(stringData);
             part->setPartName(name);
             part->setPlainLongName(name);
+			delete[] tuning2;
 
             //
             // determine clef
@@ -1375,7 +1382,7 @@ void GuitarPro2::read(QFile* fp)
                   segment->add(s);
                   }
 
-            Tuplet* tuplets[staves];
+            Tuplet** tuplets = new Tuplet*[staves];
             for (int staffIdx = 0; staffIdx < staves; ++staffIdx)
                   tuplets[staffIdx] = 0;
 
@@ -1481,6 +1488,7 @@ void GuitarPro2::read(QFile* fp)
                   }
             if (bar == 1 && !mixChange)
                   setTempo(tempo, score->firstMeasure());
+			delete[] tuplets;
             }
       }
 
@@ -1918,7 +1926,7 @@ void GuitarPro3::read(QFile* fp)
             int capo         = readInt();
             /*int color        =*/ readInt();
 
-            int tuning2[strings];
+            int* tuning2 = new int[strings];
             for (int k = 0; k < strings; ++k)
                   tuning2[strings-k-1] = tuning[k];
             StringData stringData(frets, strings, tuning2);
@@ -1927,6 +1935,7 @@ void GuitarPro3::read(QFile* fp)
             instr->setStringData(stringData);
             part->setPartName(name);
             part->setPlainLongName(name);
+			delete[] tuning2;
 
             //
             // determine clef
@@ -1995,7 +2004,7 @@ void GuitarPro3::read(QFile* fp)
                   segment->add(s);
                   }
 
-            Tuplet* tuplets[staves];
+            Tuplet** tuplets = new Tuplet*[staves];
             for (int staffIdx = 0; staffIdx < staves; ++staffIdx)
                   tuplets[staffIdx] = 0;
 
@@ -2144,6 +2153,7 @@ void GuitarPro3::read(QFile* fp)
                   }
             if (bar == 1 && !mixChange)
                   setTempo(tempo, score->firstMeasure());
+			delete[] tuplets;
             }
       }
 

@@ -671,7 +671,7 @@ void InstrumentsWidget::on_upButton_clicked()
                   // Qt looses the QComboBox set into StaffListItem's when they are re-inserted into the tree:
                   // get the currently selected staff type of each combo and re-insert
                   int numOfStaffListItems = item->childCount();
-                  int staffIdx[numOfStaffListItems];
+                  int* staffIdx = new int[numOfStaffListItems];
                   for (int itemIdx=0; itemIdx < numOfStaffListItems; ++itemIdx)
                         staffIdx[itemIdx] = (static_cast<StaffListItem*>(item->child(itemIdx)))->staffTypeIdx();
                   // do not consider hidden ones
@@ -690,6 +690,7 @@ void InstrumentsWidget::on_upButton_clicked()
                         }
                   partiturList->setItemExpanded(item, isExpanded);
                   partiturList->setItemSelected(item, true);
+				  delete[] staffIdx;
                   }
             }
       else {
@@ -754,7 +755,7 @@ void InstrumentsWidget::on_downButton_clicked()
                   // Qt looses the QComboBox set into StaffListItem's when they are re-inserted into the tree:
                   // get the currently selected staff type of each combo and re-insert
                   int numOfStaffListItems = item->childCount();
-                  int staffIdx[numOfStaffListItems];
+                  int* staffIdx = new int[numOfStaffListItems];
                   int itemIdx;
                   for (itemIdx=0; itemIdx < numOfStaffListItems; ++itemIdx)
                         staffIdx[itemIdx] = (static_cast<StaffListItem*>(item->child(itemIdx)))->staffTypeIdx();
@@ -774,7 +775,8 @@ void InstrumentsWidget::on_downButton_clicked()
                         }
                   partiturList->setItemExpanded(item, isExpanded);
                   partiturList->setItemSelected(item, true);
-                  }
+				  delete[] staffIdx;
+			      }
             }
       else {
             QTreeWidgetItem* parent = item->parent();

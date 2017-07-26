@@ -29,13 +29,20 @@
 
 #if defined __cplusplus
 
+#include <QtGlobal>
+#ifdef Q_CC_MSVC
+#define WIN32_LEAN_AND_MEAN
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
+
 #include <stdio.h>
 #include <limits.h>
 #include <map>
 #include <set>
 #include <errno.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <math.h>
 #include <array>
 #include <functional>

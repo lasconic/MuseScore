@@ -196,8 +196,13 @@ void MasterSynthesizer::setEffect(int ab, int idx)
             return;
             }
       lock2 = true;
-      while (lock1)
-            sleep(1);
+	  while (lock1)
+#ifndef Q_CC_MSVC
+		  sleep(1);
+#else
+		  Sleep(1);
+#endif
+            
       _effect[ab] = _effectList[ab][idx];
       lock2 = false;
       }

@@ -410,7 +410,7 @@ void GuitarPro5::readTracks()
                   readDelphiString();
                   }
 
-            int tuning2[strings];
+            int* tuning2 = new int[strings];
             for (int k = 0; k < strings; ++k)
                   tuning2[strings-k-1] = tuning[k];
             StringData stringData(frets, strings, tuning2);
@@ -418,6 +418,7 @@ void GuitarPro5::readTracks()
             instr->setStringData(stringData);
             part->setPartName(name);
             part->setPlainLongName(name);
+			delete[] tuning2;
 
             //
             // determine clef
@@ -491,7 +492,7 @@ void GuitarPro5::readMeasures(int /*startingTempo*/)
                   segment->add(s);
                   }
 
-            Tuplet* tuplets[staves * 2];     // two voices
+            Tuplet** tuplets = new Tuplet*[staves * 2];     // two voices
             for (int track = 0; track < staves*2; ++track)
                   tuplets[track] = 0;
 
@@ -504,6 +505,7 @@ void GuitarPro5::readMeasures(int /*startingTempo*/)
                   }
             if (bar == 1 && !mixChange)
                   setTempo(tempo, score->firstMeasure());
+			delete[] tuplets;
             }
       }
 

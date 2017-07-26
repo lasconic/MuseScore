@@ -5606,7 +5606,7 @@ bool MuseScore::saveMp3(Score* score, const QString& name)
                               break;
                         int n = f - playTime;
                         if (n) {
-                              float bu[n * 2];
+                              float* bu = new float[n * 2];
                               memset(bu, 0, sizeof(float) * 2 * n);
 
                               synti->process(n, bu);
@@ -5617,6 +5617,7 @@ bool MuseScore::saveMp3(Score* score, const QString& name)
                                     }
                               playTime  += n;
                               frames    -= n;
+							  delete[] bu;
                               }
                         const NPlayEvent& e = playPos->second;
                         if (e.isChannelEvent()) {
@@ -5628,7 +5629,7 @@ bool MuseScore::saveMp3(Score* score, const QString& name)
                               }
                         }
                   if (frames) {
-                        float bu[frames * 2];
+                        float* bu = new float[frames * 2];
                         memset(bu, 0, sizeof(float) * 2 * frames);
                         synti->process(frames, bu);
                         float* sp = bu;
@@ -5637,6 +5638,7 @@ bool MuseScore::saveMp3(Score* score, const QString& name)
                               *r++ = *sp++;
                               }
                         playTime += frames;
+						delete[] bu;
                         }
 
                   if (pass == 1) {

@@ -602,7 +602,7 @@ void GuitarPro4::read(QFile* fp)
             int capo         = readInt();
             /*int color        =*/ readInt();
 
-            int tuning2[strings];
+            int* tuning2 = new int[strings];
             for (int k = 0; k < strings; ++k)
                   tuning2[strings-k-1] = tuning[k];
             StringData stringData(frets, strings, tuning2);
@@ -611,6 +611,7 @@ void GuitarPro4::read(QFile* fp)
             instr->setStringData(stringData);
             part->setPartName(name);
             part->setPlainLongName(name);
+			delete[] tuning2;
 
             //
             // determine clef
@@ -678,7 +679,7 @@ void GuitarPro4::read(QFile* fp)
                   segment->add(s);
                   }
 
-            Tuplet* tuplets[staves];
+            Tuplet** tuplets = new Tuplet*[staves];
             for (int staffIdx = 0; staffIdx < staves; ++staffIdx)
                   tuplets[staffIdx] = 0;
 
@@ -861,6 +862,7 @@ void GuitarPro4::read(QFile* fp)
                   }
             if (bar == 1 && !mixChange)
                   setTempo(tempo, score->firstMeasure());
+			delete[] tuplets;
             }
       }
 

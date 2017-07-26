@@ -43,7 +43,7 @@ add_library (aeolus STATIC
 set_target_properties (
       aeolus
       PROPERTIES
-         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch"
+         COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall"
       )
 
 install(DIRECTORY
