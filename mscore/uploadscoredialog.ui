@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>615</width>
-    <height>644</height>
+    <height>438</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,6 @@
    <bool>true</bool>
   </property>
   <layout class="QFormLayout" name="formLayout_2">
-   <property name="fieldGrowthPolicy">
-    <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-   </property>
    <property name="verticalSpacing">
     <number>12</number>
    </property>
@@ -129,6 +126,9 @@
          <property name="locale">
           <locale language="English" country="UnitedStates"/>
          </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+         </property>
          <property name="plainText">
           <string notr="true"/>
          </property>
@@ -138,9 +138,6 @@
      </item>
      <item>
       <layout class="QFormLayout" name="formLayout">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-       </property>
        <property name="labelAlignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
@@ -368,7 +365,11 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QTextEdit" name="changes"/>
+        <widget class="QPlainTextEdit" name="changes">
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
