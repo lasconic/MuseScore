@@ -2241,9 +2241,10 @@ void Score::splitStaff(int staffIdx, int splitPoint)
 
       for (Segment* s = firstSegment(Segment::Type::ChordRest); s; s = s->next1(Segment::Type::ChordRest)) {
             for (int voice = 0; voice < VOICES; ++voice) {
-                  Chord* c = static_cast<Chord*>(s->element(strack + voice));
-                  if (c == 0 || c->type() != Element::Type::CHORD)
+                  Element* el = s->element(strack + voice);
+                  if (el == 0 || el->type() != Element::Type::CHORD)
                         continue;
+                  Chord* c = static_cast<Chord*>(el);
                   QList<Note*> removeNotes;
                   foreach(Note* note, c->notes()) {
                         if (note->pitch() >= splitPoint)
@@ -2269,9 +2270,10 @@ void Score::splitStaff(int staffIdx, int splitPoint)
                         Chord* chord = note->chord();
                         if (chord->notes().isEmpty()) {
                               for (auto sp : spanner()) {
-                                    Slur* slur = static_cast<Slur*>(sp.second);
-                                    if (slur->type() != Element::Type::SLUR)
+                                    Spanner* spanner = sp.second;
+                                    if (spanner->type() != Element::Type::SLUR)
                                           continue;
+                                    Slur* slur = static_cast<Slur*>(spanner);
                                     if (slur->startCR() == chord) {
                                           slur->undoChangeProperty(P_ID::TRACK, slur->track()+VOICES);
                                           for (ScoreElement* ee : slur->linkList()) {

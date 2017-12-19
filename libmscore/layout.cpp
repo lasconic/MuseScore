@@ -2668,9 +2668,10 @@ void Score::connectTies(bool silent)
       Segment::Type st = Segment::Type::ChordRest;
       for (Segment* s = m->first(st); s; s = s->next1(st)) {
             for (int i = 0; i < tracks; ++i) {
-                  Chord* c = static_cast<Chord*>(s->element(i));
-                  if (c == 0 || c->type() != Element::Type::CHORD)
+                  Element* el = s->element(i);
+                  if (el == 0 || el->type() != Element::Type::CHORD)
                         continue;
+                  Chord* c = static_cast<Chord*>(el);
                   // connect grace note tie to main note in 1.3 scores
                   if (_mscVersion <= 114) {
                         for (Chord* gc : c->graceNotes()) {
