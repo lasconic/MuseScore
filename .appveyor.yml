@@ -39,7 +39,7 @@ before_build:
     )
   - SET OLD_PATH=%PATH%
   - SET PATH=C:\Qt\5.8\mingw53_32\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%
-
+  - where pip
   - CD C:\MuseScore
   # get revision number
   - mingw32-make -f Makefile.mingw revision
