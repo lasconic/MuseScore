@@ -51,7 +51,7 @@ def main():
     args = get_args()
     message = args.message
 
-    client = irc.client.IRC()
+    client = irc.client.Reactor()
     try:
         c = client.server().connect(server, port, nickname)
     except irc.client.ServerConnectionError:
