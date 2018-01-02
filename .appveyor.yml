@@ -35,10 +35,10 @@ before_build:
     )
   - START " " /wait "7z" x -y dependencies.7z > nul &&
     CD dependencies &&
-    XCOPY i686-w64-mingw32 "C:\Qt\Tools\mingw530_32\i686-w64-mingw32" /E &&
-    XCOPY lib "C:\Qt\Tools\mingw530_32\lib" /E &&
-    XCOPY Jack "C:\Program Files (x86)\Jack" /E /I &&
-    XCOPY ccache "C:\ccache" /E /I
+    XCOPY i686-w64-mingw32 "C:\Qt\Tools\mingw530_32\i686-w64-mingw32" /E /Y &&
+    XCOPY lib "C:\Qt\Tools\mingw530_32\lib" /E /Y &&
+    XCOPY Jack "C:\Program Files (x86)\Jack" /E /I /Y &&
+    XCOPY ccache "C:\ccache" /E /I /Y
   - SET OLD_PATH=%PATH%
   - SET PATH=C:\Qt\5.8\mingw53_32\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%
   - CD C:\MuseScore
