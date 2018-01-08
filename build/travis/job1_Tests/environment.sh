@@ -26,6 +26,7 @@ unzip -qq qt5.zip -d qt5
 export PATH="${PWD}/qt5/bin:$PATH"
 export QT_PLUGIN_PATH="${PWD}/qt5/plugins"
 export QML2_IMPORT_PATH="${PWD}/qt5/qml"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${PWD}/qt5/lib"
 
 # Setup install destination
 mkdir "$HOME/software"
