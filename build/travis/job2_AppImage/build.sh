@@ -52,18 +52,23 @@ else
   makefile_overrides="" # use Makefile defaults
 fi
 
+echo "$1"
+
 # Build AppImage depending on arch specified in $1 if cross-compiling, else default build x86_64
 case "$1" in
 
   --armhf )
     shift
     # build MuseScore inside debian x86-64 multiarch image containing arm cross toolchain and libraries
+    echo "docker run"
     docker run -i -v "${PWD}:/MuseScore" \
       ericfont/musescore:jessie-crosscompile-armhf \
       /bin/bash -c \
       "/MuseScore/build/Linux+BSD/portable/RecipeDebian --build-only armhf $makefile_overrides"
     # then run inside fully emulated arm image for AppImage packing step (which has trouble inside multiarch image)
+    echo "docker run step 2"
     docker run -i --privileged multiarch/qemu-user-static:register
+    echo "docker run step 3"
     docker run -i -v "${PWD}:/MuseScore" --privileged \
       ericfont/musescore:jessie-packaging-armhf \
       /bin/bash -c \
