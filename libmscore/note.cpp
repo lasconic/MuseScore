@@ -66,76 +66,127 @@ namespace Ms {
 static const SymId noteHeads[2][int(NoteHead::Group::HEAD_GROUPS)][int(NoteHead::Type::HEAD_TYPES)] = {
    // previous non-SMUFL data kept in comments for future reference
    {     // down stem
-      { SymId::noteheadWhole,       SymId::noteheadHalf,          SymId::noteheadBlack,     SymId::noteheadDoubleWhole  },
-      { SymId::noteheadXWhole,      SymId::noteheadXHalf,         SymId::noteheadXBlack,    SymId::noteheadXWhole       },
-      { SymId::noteheadDiamondWhole,SymId::noteheadDiamondHalf,   SymId::noteheadDiamondBlack, SymId::noteheadDiamondWhole  },
-//    { SymId(s0triangleHeadSym),   SymId(d1triangleHeadSym),     SymId(d2triangleHeadSym), SymId(s0triangleHeadSym)    },
-      { SymId::noteheadTriangleDownWhole, SymId::noteheadTriangleDownHalf, SymId::noteheadTriangleDownBlack, SymId::noteheadTriangleDownDoubleWhole },
-//    { SymId(s0miHeadSym),         SymId(s1miHeadSym),           SymId(s2miHeadSym),           SymId::noSym            },
-      { SymId::noteShapeDiamondWhite,     SymId::noteShapeDiamondWhite,    SymId::noteShapeDiamondBlack,     SymId::noSym            },
-//    { SymId(wholeslashheadSym),   SymId(halfslashheadSym),      SymId(quartslashheadSym),     SymId(wholeslashheadSym)},
-      { SymId::noteheadSlashWhiteWhole, SymId::noteheadSlashWhiteHalf, SymId::noteheadSlashHorizontalEnds, SymId::noteheadSlashWhiteWhole},
-//    { SymId(xcircledheadSym),     SymId(xcircledheadSym),       SymId(xcircledheadSym),       SymId(xcircledheadSym)  },
-      { SymId::noteheadCircleXWhole,SymId::noteheadCircleXHalf,   SymId::noteheadCircleX,       SymId::noteheadCircleXDoubleWhole},
-//    { SymId(s0doHeadSym),         SymId(d1doHeadSym),           SymId(d2doHeadSym),           SymId::noSym            },
-      { SymId::noteShapeTriangleUpWhite,        SymId::noteShapeTriangleUpWhite,      SymId::noteShapeTriangleUpBlack,     SymId::noSym            },
-//    { SymId(s0reHeadSym),         SymId(d1reHeadSym),           SymId(d2reHeadSym),           SymId::noSym            },
-      { SymId::noteShapeMoonWhite,              SymId::noteShapeMoonWhite,            SymId::noteShapeMoonBlack,           SymId::noSym            },
-//    { SymId(d0faHeadSym),         SymId(d1faHeadSym),           SymId(d2faHeadSym),           SymId::noSym            },
-      { SymId::noteShapeTriangleRightWhite,     SymId::noteShapeTriangleRightWhite,   SymId::noteShapeTriangleRightBlack,  SymId::noSym            },
-//    { SymId(s0laHeadSym),         SymId(s1laHeadSym),           SymId(s2laHeadSym),           SymId::noSym            },
-      { SymId::noteShapeSquareWhite,            SymId::noteShapeSquareWhite,          SymId::noteShapeSquareBlack,         SymId::noSym            },
-//    { SymId(s0tiHeadSym),         SymId(d1tiHeadSym),           SymId(d2tiHeadSym),           SymId::noSym            },
-      { SymId::noteShapeTriangleRoundWhite,     SymId::noteShapeTriangleRoundWhite,   SymId::noteShapeTriangleRoundBlack,  SymId::noSym            },
-//    { SymId(s0solHeadSym),        SymId(s1solHeadSym),          SymId(s2solHeadSym),          SymId::noSym            },
-      { SymId::noteShapeRoundWhite,             SymId::noteShapeRoundWhite,           SymId::noteShapeRoundBlack,          SymId::noSym            },
-      { SymId::noteheadWhole,                   SymId::noteheadHalf,                  SymId::noteheadBlack,                SymId::noteheadDoubleWholeSquare   },
+      { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,               SymId::noteheadDoubleWhole  },
+      { SymId::noteheadXWhole,              SymId::noteheadXHalf,               SymId::noteheadXBlack,              SymId::noteheadXDoubleWhole       },
+      { SymId::noteheadPlusWhole,           SymId::noteheadPlusHalf,            SymId::noteheadPlusBlack,           SymId::noteheadPlusDoubleWhole  },
+      { SymId::noteheadCircleXWhole,        SymId::noteheadCircleXHalf,         SymId::noteheadCircleX,             SymId::noteheadCircleXDoubleWhole},
+      { SymId::noteheadWholeWithX,          SymId::noteheadHalfWithX,           SymId::noteheadVoidWithX,           SymId::noteheadDoubleWholeWithX},
+      { SymId::noteheadTriangleUpWhole,     SymId::noteheadTriangleUpHalf,      SymId::noteheadTriangleUpBlack,     SymId::noteheadTriangleUpDoubleWhole },
+      { SymId::noteheadTriangleDownWhole,   SymId::noteheadTriangleDownHalf,    SymId::noteheadTriangleDownBlack,   SymId::noteheadTriangleDownDoubleWhole },
+      { SymId::noteheadSlashedWhole1,       SymId::noteheadSlashedHalf1,        SymId::noteheadSlashedBlack1,       SymId::noteheadSlashedDoubleWhole1 },
+      { SymId::noteheadSlashedWhole2,       SymId::noteheadSlashedHalf2,        SymId::noteheadSlashedBlack2,       SymId::noteheadSlashedDoubleWhole2 },
+      { SymId::noteheadDiamondWhole,        SymId::noteheadDiamondHalf,         SymId::noteheadDiamondBlack,        SymId::noteheadDiamondWhole  },
+      { SymId::noteheadDiamondWholeOld,     SymId::noteheadDiamondHalfOld,      SymId::noteheadDiamondBlackOld,     SymId::noteheadDiamondDoubleWholeOld  },
+      { SymId::noteheadCircledWhole,        SymId::noteheadCircledHalf,         SymId::noteheadCircledBlack,        SymId::noteheadCircledDoubleWhole  },
+      { SymId::noteheadCircledWholeLarge,   SymId::noteheadCircledHalfLarge,    SymId::noteheadCircledBlackLarge,   SymId::noteheadCircledDoubleWholeLarge  },
+      { SymId::noteheadLargeArrowUpWhole,   SymId::noteheadLargeArrowUpHalf,    SymId::noteheadLargeArrowUpBlack,   SymId::noteheadLargeArrowUpDoubleWhole  },
+      { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,               SymId::noteheadDoubleWholeSquare   },
+      { SymId::noteheadSlashWhiteWhole,     SymId::noteheadSlashWhiteHalf,      SymId::noteheadSlashHorizontalEnds, SymId::noteheadSlashWhiteWhole},
+      
+      
+      //shapes
+      { SymId::noteShapeRoundWhite,         SymId::noteShapeRoundWhite,         SymId::noteShapeRoundBlack,         SymId::noSym },
+      { SymId::noteShapeSquareWhite,        SymId::noteShapeSquareWhite,        SymId::noteShapeSquareBlack,        SymId::noSym },
+      { SymId::noteShapeTriangleRightWhite, SymId::noteShapeTriangleRightWhite, SymId::noteShapeTriangleRightBlack, SymId::noSym },
+      { SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondBlack,       SymId::noSym },
+      { SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpBlack,    SymId::noSym },
+      { SymId::noteShapeMoonWhite,          SymId::noteShapeMoonWhite,          SymId::noteShapeMoonBlack,          SymId::noSym },
+      { SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundBlack, SymId::noSym }
    },
    {     // up stem
-      { SymId::noteheadWhole,       SymId::noteheadHalf,          SymId::noteheadBlack,     SymId::noteheadDoubleWhole  },
-      { SymId::noteheadXWhole,      SymId::noteheadXHalf,         SymId::noteheadXBlack,    SymId::noteheadXWhole       },
-      { SymId::noteheadDiamondWhole,SymId::noteheadDiamondHalf,   SymId::noteheadDiamondBlack, SymId::noteheadDiamondWhole  },
-//    { SymId(s0triangleHeadSym),   SymId(d1triangleHeadSym),     SymId(d2triangleHeadSym), SymId(s0triangleHeadSym)    },
-      { SymId::noteheadTriangleDownWhole,       SymId::noteheadTriangleDownHalf,    SymId::noteheadTriangleDownBlack,   SymId::noteheadTriangleDownDoubleWhole },
-//    { SymId(s0miHeadSym),         SymId(s1miHeadSym),           SymId(s2miHeadSym),           SymId::noSym            },
-      { SymId::noteShapeDiamondWhite,           SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondBlack,       SymId::noSym            },
-//    { SymId(wholeslashheadSym),   SymId(halfslashheadSym),      SymId(quartslashheadSym),     SymId(wholeslashheadSym)},
-      { SymId::noteheadSlashWhiteWhole,       SymId::noteheadSlashWhiteHalf,          SymId::noteheadSlashHorizontalEnds, SymId::noteheadSlashWhiteWhole},
-//    { SymId(xcircledheadSym),     SymId(xcircledheadSym),       SymId(xcircledheadSym),       SymId(xcircledheadSym)  },
-      { SymId::noteheadCircleXWhole,            SymId::noteheadCircleXHalf,         SymId::noteheadCircleX,             SymId::noteheadCircleXDoubleWhole},
-//    { SymId(s0doHeadSym),         SymId(d1doHeadSym),           SymId(d2doHeadSym),           SymId::noSym            },
-      { SymId::noteShapeTriangleUpWhite,        SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpBlack,    SymId::noSym            },
-//    { SymId(s0reHeadSym),         SymId(d1reHeadSym),           SymId(d2reHeadSym),           SymId::noSym            },
-      { SymId::noteShapeMoonWhite,              SymId::noteShapeMoonWhite,          SymId::noteShapeMoonBlack,          SymId::noSym            },
-//    { SymId(d0faHeadSym),         SymId(d1faHeadSym),           SymId(d2faHeadSym),           SymId::noSym            },
-      { SymId::noteShapeTriangleLeftWhite,     SymId::noteShapeTriangleLeftWhite, SymId::noteShapeTriangleLeftBlack, SymId::noSym            },
-//    { SymId(s0laHeadSym),         SymId(s1laHeadSym),           SymId(s2laHeadSym),           SymId::noSym            },
-      { SymId::noteShapeSquareWhite,            SymId::noteShapeSquareWhite,        SymId::noteShapeSquareBlack,        SymId::noSym            },
-//    { SymId(s0tiHeadSym),         SymId(d1tiHeadSym),           SymId(d2tiHeadSym),           SymId::noSym            },
-      { SymId::noteShapeTriangleRoundWhite,     SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundBlack, SymId::noSym            },
-//    { SymId(s0solHeadSym),        SymId(s1solHeadSym),          SymId(s2solHeadSym),          SymId::noSym            },
-      { SymId::noteShapeRoundWhite,             SymId::noteShapeRoundWhite,         SymId::noteShapeRoundBlack,         SymId::noSym            },
-      { SymId::noteheadWhole,                   SymId::noteheadHalf,                SymId::noteheadBlack,         SymId::noteheadDoubleWholeSquare   },
+      { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,               SymId::noteheadDoubleWhole  },
+      { SymId::noteheadXWhole,              SymId::noteheadXHalf,               SymId::noteheadXBlack,              SymId::noteheadXDoubleWhole       },
+      { SymId::noteheadPlusWhole,           SymId::noteheadPlusHalf,            SymId::noteheadPlusBlack,           SymId::noteheadPlusDoubleWhole  },
+      { SymId::noteheadCircleXWhole,        SymId::noteheadCircleXHalf,         SymId::noteheadCircleX,             SymId::noteheadCircleXDoubleWhole},
+      { SymId::noteheadWholeWithX,          SymId::noteheadHalfWithX,           SymId::noteheadVoidWithX,           SymId::noteheadDoubleWholeWithX},
+      { SymId::noteheadTriangleUpWhole,     SymId::noteheadTriangleUpHalf,      SymId::noteheadTriangleUpBlack,     SymId::noteheadTriangleUpDoubleWhole },
+      { SymId::noteheadTriangleDownWhole,   SymId::noteheadTriangleDownHalf,    SymId::noteheadTriangleDownBlack,   SymId::noteheadTriangleDownDoubleWhole },
+      { SymId::noteheadSlashedWhole1,       SymId::noteheadSlashedHalf1,        SymId::noteheadSlashedBlack1,       SymId::noteheadSlashedDoubleWhole1 },
+      { SymId::noteheadSlashedWhole2,       SymId::noteheadSlashedHalf2,        SymId::noteheadSlashedBlack2,       SymId::noteheadSlashedDoubleWhole2 },
+      { SymId::noteheadDiamondWhole,        SymId::noteheadDiamondHalf,         SymId::noteheadDiamondBlack,        SymId::noteheadDiamondWhole  },
+      { SymId::noteheadDiamondWholeOld,     SymId::noteheadDiamondHalfOld,      SymId::noteheadDiamondBlackOld,     SymId::noteheadDiamondDoubleWholeOld  },
+      { SymId::noteheadCircledWhole,        SymId::noteheadCircledHalf,         SymId::noteheadCircledBlack,        SymId::noteheadCircledDoubleWhole  },
+      { SymId::noteheadCircledWholeLarge,   SymId::noteheadCircledHalfLarge,    SymId::noteheadCircledBlackLarge,   SymId::noteheadCircledDoubleWholeLarge  },
+      { SymId::noteheadLargeArrowUpWhole,   SymId::noteheadLargeArrowUpHalf,    SymId::noteheadLargeArrowUpBlack,   SymId::noteheadLargeArrowUpDoubleWhole  },
+      { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,               SymId::noteheadDoubleWholeSquare   },
+      { SymId::noteheadSlashWhiteWhole,     SymId::noteheadSlashWhiteHalf,      SymId::noteheadSlashHorizontalEnds, SymId::noteheadSlashWhiteWhole},
+      
+      //shapes
+      { SymId::noteShapeRoundWhite,         SymId::noteShapeRoundWhite,         SymId::noteShapeRoundBlack,         SymId::noSym },
+      { SymId::noteShapeSquareWhite,        SymId::noteShapeSquareWhite,        SymId::noteShapeSquareBlack,        SymId::noSym },
+      { SymId::noteShapeTriangleLeftWhite,  SymId::noteShapeTriangleLeftWhite,  SymId::noteShapeTriangleLeftBlack,  SymId::noSym },       // different from down
+      { SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondBlack,       SymId::noSym },
+      { SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpBlack,    SymId::noSym },
+      { SymId::noteShapeMoonWhite,          SymId::noteShapeMoonWhite,          SymId::noteShapeMoonBlack,          SymId::noSym },
+      { SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundBlack, SymId::noSym }
    }
 };
 
-// same order as NoteHead::Group
-static const char* noteHeadNames[] = {
-    QT_TRANSLATE_NOOP("noteheadnames", "Normal"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Cross"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Diamond"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Triangle"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Mi"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Slash"),
-    QT_TRANSLATE_NOOP("noteheadnames", "XCircle"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Do"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Re"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Fa"),
-    QT_TRANSLATE_NOOP("noteheadnames", "La"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Ti"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Sol"),
-    QT_TRANSLATE_NOOP("noteheadnames", "Alt. Brevis")
+struct NoteHeadName {
+      const char* name;
+      const char* username;
 };
+
+// same order as NoteHead::Group
+static NoteHeadName noteHeadGroupNames[] = {
+      {"normal",         QT_TRANSLATE_NOOP("noteheadnames", "Normal") },
+      {"cross",          QT_TRANSLATE_NOOP("noteheadnames", "Cross") },
+      {"plus",           QT_TRANSLATE_NOOP("noteheadnames", "Plus") },
+      {"xcircle",        QT_TRANSLATE_NOOP("noteheadnames", "XCircle") },
+      {"withx",          QT_TRANSLATE_NOOP("noteheadnames", "With X") },
+      {"triangle-up",    QT_TRANSLATE_NOOP("noteheadnames", "Triangle Up") },
+      {"triangle-down",  QT_TRANSLATE_NOOP("noteheadnames", "Triangle Down") },
+      {"slashed1",       QT_TRANSLATE_NOOP("noteheadnames", "Slashed (Forwards)") },
+      {"slashed2",       QT_TRANSLATE_NOOP("noteheadnames", "Slashed (Backwards)") },
+      {"diamond",        QT_TRANSLATE_NOOP("noteheadnames", "Diamond") },
+      {"diamond-old",    QT_TRANSLATE_NOOP("noteheadnames", "Diamond (Old)") },
+      {"circled",        QT_TRANSLATE_NOOP("noteheadnames", "Circled") },
+      {"circled-large",  QT_TRANSLATE_NOOP("noteheadnames", "Circled Large") },
+      {"large-arrow",    QT_TRANSLATE_NOOP("noteheadnames", "Large Arrow") },
+      {"altbrevis",      QT_TRANSLATE_NOOP("noteheadnames", "Alt. Brevis") },
+
+      {"slash",     QT_TRANSLATE_NOOP("noteheadnames", "Slash") },
+
+      // shape notes
+      {"sol",       QT_TRANSLATE_NOOP("noteheadnames", "Sol") },
+      {"la",        QT_TRANSLATE_NOOP("noteheadnames", "La") },
+      {"fa",        QT_TRANSLATE_NOOP("noteheadnames", "Fa") },
+      {"mi",        QT_TRANSLATE_NOOP("noteheadnames", "Mi") },
+      {"do",        QT_TRANSLATE_NOOP("noteheadnames", "Do") },
+      {"re",        QT_TRANSLATE_NOOP("noteheadnames", "Re") },
+      {"ti",        QT_TRANSLATE_NOOP("noteheadnames", "Ti") },
+      };
+
+//---------------------------------------------------------
+//   group2userName
+//---------------------------------------------------------
+
+QString NoteHead::group2userName(NoteHead::Group group)
+      {
+      return qApp->translate("noteheadnames", noteHeadGroupNames[int(group)].username);
+      }
+
+//---------------------------------------------------------
+//   group2name
+//---------------------------------------------------------
+
+QString NoteHead::group2name(NoteHead::Group group)
+      {
+      return noteHeadGroupNames[int(group)].name;
+      }
+
+//---------------------------------------------------------
+//   name2group
+//---------------------------------------------------------
+
+NoteHead::Group NoteHead::name2group(QString s)
+      {
+      for (int i = 0; i < int(NoteHead::Group::HEAD_GROUPS); ++i) {
+            if (noteHeadGroupNames[i].name == s)
+                  return NoteHead::Group(i);
+            }
+      return NoteHead::Group::HEAD_NORMAL;
+      }
 
 //---------------------------------------------------------
 //   noteHead
@@ -146,20 +197,110 @@ SymId Note::noteHead(int direction, NoteHead::Group g, NoteHead::Type t)
       return noteHeads[direction][int(g)][int(t)];
       };
 
-//---------------------------------------------------------
-//   write
-//---------------------------------------------------------
 
-void NoteHead::write(Xml& xml) const
+int NoteHead::group2Int(NoteHead::Group g)
       {
-      xml.stag("NoteHead");
-      xml.tag("name", Sym::id2name(_sym));
-      Element::writeProperties(xml);
-      xml.etag();
+      int val;
+      switch (g) {
+            case NoteHead::Group::HEAD_CROSS:
+                  val = 1;
+                  break;
+            case NoteHead::Group::HEAD_DIAMOND:
+                  val = 2;
+                  break;
+            case NoteHead::Group::HEAD_TRIANGLE:
+                  val = 3;
+                  break;
+            case NoteHead::Group::HEAD_MI:
+                  val = 4;
+                  break;
+            case NoteHead::Group::HEAD_SLASH:
+                  val = 5;
+                  break;
+            case NoteHead::Group::HEAD_XCIRCLE:
+                  val = 6;
+                  break;
+            case NoteHead::Group::HEAD_DO:
+                  val = 7;
+                  break;
+            case NoteHead::Group::HEAD_RE:
+                  val = 8;
+                  break;
+            case NoteHead::Group::HEAD_FA:
+                  val = 9;
+                  break;
+            case NoteHead::Group::HEAD_LA:
+                  val = 10;
+                  break;
+            case NoteHead::Group::HEAD_TI:
+                  val = 11;
+                  break;
+            case NoteHead::Group::HEAD_SOL:
+                  val = 12;
+                  break;
+            case NoteHead::Group::HEAD_BREVIS_ALT:
+                  val = 13;
+                  break;
+            default:
+                  val = 0;
+            }
+      return val;
+      }
+
+
+NoteHead::Group NoteHead::int2Group(int code)
+      {
+      NoteHead::Group val;
+      switch (code) {
+            case 1:
+                  val = NoteHead::Group::HEAD_CROSS;
+                  break;
+            case 2:
+                  val = NoteHead::Group::HEAD_DIAMOND;
+                  break;
+            case 3:
+                  val = NoteHead::Group::HEAD_TRIANGLE;
+                  break;
+            case 4:
+                  val = NoteHead::Group::HEAD_MI;
+                  break;
+            case 5:
+                  val = NoteHead::Group::HEAD_SLASH;
+                  break;
+            case 6:
+                  val = NoteHead::Group::HEAD_XCIRCLE;
+                  break;
+            case 7:
+                  val = NoteHead::Group::HEAD_DO;
+                  break;
+            case 8:
+                  val = NoteHead::Group::HEAD_RE;
+                  break;
+            case 9:
+                  val = NoteHead::Group::HEAD_FA;
+                  break;
+            case 10:
+                  val = NoteHead::Group::HEAD_LA;
+                  break;
+            case 11:
+                  val = NoteHead::Group::HEAD_TI;
+                  break;
+            case 12:
+                  val = NoteHead::Group::HEAD_SOL;
+                  break;
+            case 13:
+                  val = NoteHead::Group::HEAD_BREVIS_ALT;
+                  break;
+            default:
+                  val = NoteHead::Group::HEAD_NORMAL;
+            }
+      return val;
       }
 
 //---------------------------------------------------------
 //   headGroup
+//   used only when dropping a notehead from the palette
+//   they are either half note, either double whole
 //---------------------------------------------------------
 
 NoteHead::Group NoteHead::headGroup() const
@@ -810,7 +951,10 @@ void Note::write(Xml& xml) const
       writeProperty(xml, P_ID::SMALL);
       writeProperty(xml, P_ID::MIRROR_HEAD);
       writeProperty(xml, P_ID::DOT_POSITION);
-      writeProperty(xml, P_ID::HEAD_GROUP);
+      if (_headGroup != NoteHead::Group::HEAD_NORMAL)
+            xml.tag("head", NoteHead::group2Int(_headGroup));
+      if (_headGroup != NoteHead::Group::HEAD_NORMAL && NoteHead::group2Int(_headGroup) == 0) // new notehead in 2.2
+            xml.tag("headGroup", NoteHead::group2name(_headGroup));
       writeProperty(xml, P_ID::VELO_OFFSET);
       writeProperty(xml, P_ID::PLAY);
       writeProperty(xml, P_ID::TUNING);
@@ -891,7 +1035,9 @@ void Note::read(XmlReader& e)
                         setOffTimeOffset(1000 + (e.readInt() * 10));
                   }
             else if (tag == "head")
-                  setProperty(P_ID::HEAD_GROUP, Ms::getProperty(P_ID::HEAD_GROUP, e));
+                  setHeadGroup(NoteHead::int2Group(e.readInt()));
+            else if (tag == "headGroup") // MuseScore 2.2 only
+                  setHeadGroup(NoteHead::name2group(e.readElementText()));
             else if (tag == "velocity")
                   setVeloOffset(e.readInt());
             else if (tag == "play")
@@ -2233,7 +2379,7 @@ void Note::setNval(const NoteVal& nval, int tick)
                   }
             }
 
-      _headGroup = NoteHead::Group(nval.headGroup);
+      _headGroup = nval.headGroup;
       }
 
 //---------------------------------------------------------
@@ -2670,21 +2816,12 @@ int Note::qmlDotsCount()
       }
 
 //---------------------------------------------------------
-//   groupToGroupName
-//---------------------------------------------------------
-
-const char* NoteHead::groupToGroupName(NoteHead::Group group)
-      {
-      return noteHeadNames[int(group)];
-      }
-
-//---------------------------------------------------------
 //   subtypeName
 //---------------------------------------------------------
 
 QString Note::subtypeName() const
       {
-      return qApp->translate("noteheadnames", NoteHead::groupToGroupName(_headGroup));
+      return NoteHead::group2userName(_headGroup);
       }
 
 //---------------------------------------------------------

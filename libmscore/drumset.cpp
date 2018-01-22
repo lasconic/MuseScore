@@ -28,8 +28,11 @@ void Drumset::save(Xml& xml) const
       for (int i = 0; i < 128; ++i) {
             if (!isValid(i))
                   continue;
+            NoteHead::Group headGroup = noteHead(i);
             xml.stag(QString("Drum pitch=\"%1\"").arg(i));
-            xml.tag("head", int(noteHead(i)));
+            xml.tag("head", NoteHead::group2Int(headGroup));
+            if (headGroup != NoteHead::Group::HEAD_NORMAL && NoteHead::group2Int(headGroup) == 0) // new notehead in 2.2
+                  xml.tag("headGroup", NoteHead::group2name(headGroup));
             xml.tag("line", line(i));
             xml.tag("voice", voice(i));
             xml.tag("name", name(i));
@@ -74,7 +77,9 @@ void Drumset::load(XmlReader& e)
             const QStringRef& tag(e.name());
 
             if (tag == "head")
-                  _drum[pitch].notehead = NoteHead::Group(e.readInt());
+                  _drum[pitch].notehead = NoteHead::int2Group(e.readInt());
+            else if (tag == "headGroup")
+                  _drum[pitch].notehead = NoteHead::name2group(e.readElementText());
             else if (tag == "line")
                   _drum[pitch].line = e.readInt();
             else if (tag == "voice")

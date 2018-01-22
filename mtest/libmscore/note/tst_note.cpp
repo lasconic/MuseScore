@@ -126,9 +126,10 @@ void TestNote::note()
       delete n;
   // headGroup
       for (int i = 0; i < int (NoteHead::Group::HEAD_GROUPS); ++i) {
-            note->setHeadGroup(NoteHead::Group(i));
+            NoteHead::Group headGroup = NoteHead::Group(i);
+            note->setHeadGroup(headGroup);
             n = static_cast<Note*>(writeReadElement(note));
-            QCOMPARE(int(n->headGroup()), i);
+            QCOMPARE(NoteHead::group2Int(n->headGroup()), NoteHead::group2Int(headGroup));
             delete n;
             }
 
@@ -250,7 +251,7 @@ void TestNote::note()
       for (int i = 0; i < int(NoteHead::Group::HEAD_GROUPS); ++i) {
             note->setProperty(P_ID::HEAD_GROUP, i);
             n = static_cast<Note*>(writeReadElement(note));
-            QCOMPARE(int(n->headGroup()), i);
+            QCOMPARE(NoteHead::group2Int(n->headGroup()), NoteHead::group2Int(NoteHead::Group(i)));
             delete n;
             }
 

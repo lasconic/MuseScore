@@ -38,25 +38,36 @@ InspectorNote::InspectorNote(QWidget* parent)
       static const NoteHead::Group heads[] = {
             NoteHead::Group::HEAD_NORMAL,
             NoteHead::Group::HEAD_CROSS,
-            NoteHead::Group::HEAD_DIAMOND,
-            NoteHead::Group::HEAD_TRIANGLE,
-            NoteHead::Group::HEAD_SLASH,
+            NoteHead::Group::HEAD_PLUS,
             NoteHead::Group::HEAD_XCIRCLE,
+            NoteHead::Group::HEAD_WITHX,
+            NoteHead::Group::HEAD_TRIANGLE_UP,
+            NoteHead::Group::HEAD_TRIANGLE,
+            NoteHead::Group::HEAD_SLASHED1,
+            NoteHead::Group::HEAD_SLASHED2,
+            NoteHead::Group::HEAD_DIAMOND,
+            NoteHead::Group::HEAD_DIAMOND_OLD,
+            NoteHead::Group::HEAD_CIRCLED,
+            NoteHead::Group::HEAD_CIRCLED_LARGE,
+            NoteHead::Group::HEAD_LARGE_ARROW,
+
+            NoteHead::Group::HEAD_SLASH,
+            NoteHead::Group::HEAD_BREVIS_ALT,
+
             NoteHead::Group::HEAD_DO,
             NoteHead::Group::HEAD_RE,
             NoteHead::Group::HEAD_MI,
             NoteHead::Group::HEAD_FA,
             NoteHead::Group::HEAD_SOL,
             NoteHead::Group::HEAD_LA,
-            NoteHead::Group::HEAD_TI,
-            NoteHead::Group::HEAD_BREVIS_ALT
+            NoteHead::Group::HEAD_TI
             };
 
       //
       // fix order of noteheads
       //
       for (unsigned i = 0; i < sizeof(heads)/sizeof(*heads); ++i) {
-            n.noteHeadGroup->addItem(qApp->translate("noteheadnames", NoteHead::groupToGroupName(heads[i])));
+            n.noteHeadGroup->addItem(NoteHead::group2userName(heads[i]));
             n.noteHeadGroup->setItemData(i, QVariant(int(heads[i])));
             }
 

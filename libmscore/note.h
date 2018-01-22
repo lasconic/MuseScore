@@ -58,18 +58,29 @@ class NoteHead : public Symbol {
       enum class Group : signed char {
             HEAD_NORMAL = 0,
             HEAD_CROSS,
-            HEAD_DIAMOND,
-            HEAD_TRIANGLE,
-            HEAD_MI,
-            HEAD_SLASH,
+            HEAD_PLUS,
             HEAD_XCIRCLE,
+            HEAD_WITHX,
+            HEAD_TRIANGLE_UP,
+            HEAD_TRIANGLE,
+            HEAD_SLASHED1,
+            HEAD_SLASHED2,
+            HEAD_DIAMOND,
+            HEAD_DIAMOND_OLD,
+            HEAD_CIRCLED,
+            HEAD_CIRCLED_LARGE,
+            HEAD_LARGE_ARROW,
+            HEAD_BREVIS_ALT,
+
+            HEAD_SLASH,
+            
+            HEAD_SOL,
+            HEAD_LA,
+            HEAD_FA,
+            HEAD_MI,
             HEAD_DO,
             HEAD_RE,
-            HEAD_FA,
-            HEAD_LA,
             HEAD_TI,
-            HEAD_SOL,
-            HEAD_BREVIS_ALT,
             HEAD_GROUPS,
             HEAD_INVALID = -1
             };
@@ -86,12 +97,15 @@ class NoteHead : public Symbol {
       NoteHead &operator=(const NoteHead&) = delete;
       virtual NoteHead* clone() const override    { return new NoteHead(*this); }
       virtual Element::Type type() const override { return Element::Type::NOTEHEAD; }
-
-      virtual void write(Xml& xml) const override;
+      
+      static int group2Int(NoteHead::Group g);
+      static NoteHead::Group int2Group(int code);
 
       Group headGroup() const;
 
-      static const char* groupToGroupName(Group group);
+      static QString group2userName(Group group);
+      static QString group2name(Group group);
+      static Group name2group(QString s);
       };
 
 //---------------------------------------------------------
@@ -452,9 +466,6 @@ class Note : public Element {
       virtual QString screenReaderInfo() override;
       virtual QString accessibleExtraInfo() override;
       };
-
-// extern const SymId noteHeads[2][int(NoteHead::Group::HEAD_GROUPS)][int(NoteHead::Type::HEAD_TYPES)];
-
 
 }     // namespace Ms
 

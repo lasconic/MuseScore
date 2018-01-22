@@ -32,24 +32,33 @@ namespace Ms {
 enum Column : char { PITCH, NOTE, SHORTCUT, NAME };
 
 //---------------------------------------------------------
-//   noteHeadNames (see also libmscore/note.{h,cpp})
-//   same order as NoteHead::Group, "Sol" and "Alt. Brevis" omitted,
+//   noteHeadNames
+//   "Sol" and "Alt. Brevis" omitted,
 //   as not being useful for drums
 //---------------------------------------------------------
 
-const char* noteHeadNames[int(NoteHead::Group::HEAD_GROUPS)] = {
-      QT_TRANSLATE_NOOP("EditDrumset", "Normal"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Cross"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Diamond"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Triangle"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Mi"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Slash"),
-      QT_TRANSLATE_NOOP("EditDrumset", "XCircle"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Do"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Re"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Fa"),
-      QT_TRANSLATE_NOOP("EditDrumset", "La"),
-      QT_TRANSLATE_NOOP("EditDrumset", "Ti"),
+NoteHead::Group noteHeadNames[] = {
+      NoteHead::Group::HEAD_NORMAL,
+      NoteHead::Group::HEAD_CROSS,
+      NoteHead::Group::HEAD_PLUS,
+      NoteHead::Group::HEAD_XCIRCLE,
+      NoteHead::Group::HEAD_WITHX,
+      NoteHead::Group::HEAD_TRIANGLE_UP,
+      NoteHead::Group::HEAD_TRIANGLE,
+      NoteHead::Group::HEAD_SLASH,
+      NoteHead::Group::HEAD_SLASHED1,
+      NoteHead::Group::HEAD_SLASHED2,
+      NoteHead::Group::HEAD_DIAMOND,
+      NoteHead::Group::HEAD_DIAMOND_OLD,
+      NoteHead::Group::HEAD_CIRCLED,
+      NoteHead::Group::HEAD_CIRCLED_LARGE,
+      NoteHead::Group::HEAD_LARGE_ARROW,
+      NoteHead::Group::HEAD_DO,
+      NoteHead::Group::HEAD_RE,
+      NoteHead::Group::HEAD_MI,
+      NoteHead::Group::HEAD_FA,
+      NoteHead::Group::HEAD_LA,
+      NoteHead::Group::HEAD_TI,
       };
 
 //---------------------------------------------------------
@@ -84,9 +93,9 @@ EditDrumset::EditDrumset(const Drumset* ds, QWidget* parent)
       updateList();
 
       noteHead->addItem(tr("invalid"));
-      for (int i = 0; i < int(NoteHead::Group::HEAD_GROUPS) - 2 ; ++i)
-            noteHead->addItem(tr(noteHeadNames[i]));
-
+      for (auto g : noteHeadNames)
+            noteHead->addItem(NoteHead::group2userName(g), int(g));
+      
       connect(pitchList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
          SLOT(itemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
       connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(bboxClicked(QAbstractButton*)));
@@ -235,7 +244,7 @@ void EditDrumset::itemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previou
       if (previous) {
             int pitch = previous->data(0, Qt::UserRole).toInt();
             nDrumset.drum(pitch).name          = name->text();
-            nDrumset.drum(pitch).notehead      = NoteHead::Group(noteHead->currentIndex() - 1);
+            nDrumset.drum(pitch).notehead      = NoteHead::Group(noteHead->currentData().toInt());
             nDrumset.drum(pitch).line          = staffLine->value();
             nDrumset.drum(pitch).voice         = voice->currentIndex();
             if (shortcut->currentIndex() == 7)
@@ -286,7 +295,7 @@ void EditDrumset::valueChanged()
             return;
       int pitch = pitchList->currentItem()->data(Column::PITCH, Qt::UserRole).toInt();
       nDrumset.drum(pitch).name          = name->text();
-      nDrumset.drum(pitch).notehead      = NoteHead::Group(noteHead->currentIndex() - 1);
+      nDrumset.drum(pitch).notehead      = NoteHead::Group(noteHead->currentData().toInt());
       nDrumset.drum(pitch).line          = staffLine->value();
       nDrumset.drum(pitch).voice         = voice->currentIndex();
       nDrumset.drum(pitch).stemDirection = MScore::Direction(stemDirection->currentIndex());

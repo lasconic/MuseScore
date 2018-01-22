@@ -522,13 +522,14 @@ Palette* MuseScore::newNoteHeadsPalette()
       sp->setDrawGrid(true);
 
       for (int i = 0; i < int(NoteHead::Group::HEAD_GROUPS); ++i) {
-            SymId sym = Note::noteHead(0, NoteHead::Group(i), NoteHead::Type::HEAD_HALF);
+            NoteHead::Group headGroup = NoteHead::Group(i);
+            SymId sym = Note::noteHead(0, headGroup, NoteHead::Type::HEAD_HALF);
             // HEAD_BREVIS_ALT shows up only for brevis value
             if (i == int(NoteHead::Group::HEAD_BREVIS_ALT) )
-                  sym = Note::noteHead(0, NoteHead::Group(i), NoteHead::Type::HEAD_BREVIS);
+                  sym = Note::noteHead(0, headGroup, NoteHead::Type::HEAD_BREVIS);
             NoteHead* nh = new NoteHead(gscore);
             nh->setSym(sym);
-            sp->append(nh, qApp->translate("noteheadnames", NoteHead::groupToGroupName(NoteHead::Group(i))));
+            sp->append(nh, NoteHead::group2userName(headGroup));
             }
       Icon* ik = new Icon(gscore);
       ik->setIconType(IconType::BRACKETS);

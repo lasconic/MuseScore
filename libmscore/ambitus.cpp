@@ -601,7 +601,7 @@ QVariant Ambitus::getProperty(P_ID propertyId) const
       {
       switch(propertyId) {
             case P_ID::HEAD_GROUP:
-                  return int(noteHeadGroup());
+                  return NoteHead::group2Int(noteHeadGroup());
             case P_ID::HEAD_TYPE:
                   return int(noteHeadType());
             case P_ID::MIRROR_HEAD:
@@ -638,7 +638,7 @@ bool Ambitus::setProperty(P_ID propertyId, const QVariant& v)
       score()->addRefresh(canvasBoundingRect());
       switch(propertyId) {
             case P_ID::HEAD_GROUP:
-                  setNoteHeadGroup( NoteHead::Group(v.toInt()) );
+                  setNoteHeadGroup( NoteHead::int2Group(v.toInt()) );
                   break;
             case P_ID::HEAD_TYPE:
                   setNoteHeadType( NoteHead::Type(v.toInt()) );
