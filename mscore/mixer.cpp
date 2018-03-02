@@ -21,6 +21,7 @@
 #include "musescore.h"
 #include "libmscore/score.h"
 #include "libmscore/part.h"
+#include "libmscore/staff.h"
 #include "mixer.h"
 #include "seq.h"
 #include "libmscore/undo.h"
@@ -219,6 +220,26 @@ void Mixer::patchListChanged()
                         pe->patch->addItem(p->name, QVariant::fromValue<void*>((void*)p));
                   }
             pe->setPart(m.part, m.articulation);
+            bool channelIsUsed = false;
+            for (Staff* staff : *m.part->staves()) {
+                  for (int voice = 0; voice < VOICES; voice++) {
+                        auto channelList = staff->channelList(voice);
+                        if (!channelList->isEmpty()) {
+                              qDebug() << m.articulation->channel << m.articulation->name;
+                              auto i = channelList->constBegin();
+                              while (i != channelList->constEnd()) {
+                                    qDebug() <<"channelList" << i.key() << ": " << i.value() << endl;
+                                    ++i;
+                                    }
+                              }
+                        if (!channelList->isEmpty() && channelList->key(m.part->instrument()->channelIdx(m.articulation->name))) {
+                              channelIsUsed = true;
+                              break;
+                              }
+                        }
+                        if (channelIsUsed) break;
+                  }
+            pe->setVisible(channelIsUsed || m.articulation == m.part->instrument()->channel(0));
             idx++;
             }
       }

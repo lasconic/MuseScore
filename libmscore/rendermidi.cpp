@@ -118,8 +118,10 @@ void Score::updateChannel()
                               continue;
                         Staff* staff = _staves[st->staffIdx()];
                         int a = staff->part()->instrument(s->tick())->channelIdx(an);
-                        if (a != -1)
+                        if (a != -1) {
                               staff->channelList(voice)->insert(s->tick(), a);
+                              qDebug() << "updatechannel" << s->tick() << a << an;
+                              }
                         }
                   }
             }
