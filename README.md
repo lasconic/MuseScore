@@ -1,4 +1,4 @@
-# MuseScore: Music notation and composition software
+# MuseScore: Music notation and composition software test
 
 MuseScore is an open source and free music notation software.
 For support, contribution, bug reports, visit [MuseScore.org](https://musescore.org). Fork and make pull requests!
